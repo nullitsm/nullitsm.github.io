@@ -103,6 +103,22 @@ main{max-width:1440px;margin:0 auto;padding:16px 12px 28px}
 .kpi .val{font-family:var(--font-display);font-size:30px;line-height:1;font-weight:900;margin-top:4px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 .delta{font-family:var(--font-sans);font-size:11px;font-weight:600}
 .delta.good{color:var(--green)} .delta.bad{color:var(--red)} .delta.neutral{color:var(--dim)}
+/* your devices */
+.yourdevices{margin-bottom:16px}
+.yd-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px}
+.yd-head h2{font-family:var(--font-display);font-size:22px;font-weight:900;letter-spacing:-.01em;margin:0}
+.yd-grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:768px){.yd-grid{grid-template-columns:1fr 1fr}}
+.yd-card{border:1px solid var(--border);background:var(--surface);padding:14px 16px}
+.yd-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.yd-name{font-family:var(--font-display);font-size:20px;font-weight:700;line-height:1.15;margin:0}
+.yd-sub{font-family:var(--font-mono);font-size:12px;color:var(--dim);margin-top:3px;word-break:break-all}
+.yd-tag{flex:0 0 auto;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--accent-deep);background:var(--accent-soft);padding:3px 8px;border-radius:999px;white-space:nowrap}
+.yd-status{font-weight:500;color:var(--green);font-size:13px;margin-top:6px}
+.yd-specs{margin:10px 0 0;padding:0}
+.yd-specs>div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-top:1px solid var(--border);font-size:13px}
+.yd-specs dt{color:var(--dim)}
+.yd-specs dd{margin:0;font-weight:500;text-align:right}
 /* filters */
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
 .filters .searchf{width:100%}
@@ -141,6 +157,28 @@ table.itsm tbody tr:hover{background:rgba(23,20,16,.035)}
 .formfoot{display:flex;justify-content:flex-end;gap:8px;padding-top:4px}
 .btn-ghost{padding:8px 12px;font-size:13px;font-weight:500}
 .foot-note{margin-top:14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+/* agent live-status tooltip */
+.agent-tip{position:fixed;z-index:90;display:none;background:#fff;color:#222;border:1px solid #d4d4d4;box-shadow:0 4px 14px rgba(0,0,0,.16);padding:8px 12px 9px;font-size:13px;line-height:1.55;pointer-events:none;white-space:nowrap}
+.agent-tip::after{content:"";position:absolute;left:18px;bottom:-5px;width:8px;height:8px;background:#fff;border-right:1px solid #d4d4d4;border-bottom:1px solid #d4d4d4;transform:rotate(45deg)}
+.agent-tip .tip-row{display:flex;gap:6px;align-items:baseline}
+.agent-tip .tip-label{color:#222}
+.agent-tip .tip-val{color:#222;font-weight:500}
+/* right-click context menu */
+.ctx-menu{position:fixed;z-index:95;display:none;width:232px;background:#fff;color:#222;border:1px solid #d4d4d4;box-shadow:0 6px 20px rgba(0,0,0,.18);padding:5px 0;font-size:14px}
+.ctx-menu.open{display:block}
+.ctx-item{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;padding:9px 16px;font-size:14px;line-height:1.25;color:#222;background:#fff;min-height:0}
+.ctx-item:hover,.ctx-item:focus-visible,.ctx-has-sub.open>.ctx-item{background:#e8ebf5}
+.ctx-sep{height:1px;background:#e3e3e3;margin:5px 0}
+.ctx-has-sub{position:relative}
+.ctx-arrow{font-size:15px;line-height:1;color:#222;margin-left:12px}
+.ctx-submenu{position:absolute;left:100%;top:-5px;width:212px;background:#fff;color:#222;border:1px solid #d4d4d4;box-shadow:0 6px 20px rgba(0,0,0,.18);padding:5px 0;display:none;max-height:80vh;overflow-y:auto}
+.ctx-has-sub.open .ctx-submenu{display:block}
+.ctx-submenu.flip{left:auto;right:100%}
+.ctx-submenu .ctx-item{padding:8px 16px}
+/* demo toast */
+.demo-toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(8px);z-index:110;max-width:min(92vw,560px);background:#171410;color:#f5efe0;border:1px solid #171410;box-shadow:0 8px 24px rgba(0,0,0,.28);padding:11px 16px;font-size:13.5px;line-height:1.45;text-align:center;opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease}
+.demo-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+tr[data-device],.yd-card{cursor:context-menu}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -193,6 +231,48 @@ table.itsm tbody tr:hover{background:rgba(23,20,16,.035)}
 
       <div class="kpis" id="kpis"></div>
 
+      <section class="yourdevices" aria-label="Your devices">
+        <div class="yd-head"><h2>Your Devices</h2></div>
+        <div class="yd-grid">
+          <article class="yd-card" data-device="Jamiahs-MacBook-Air-2" data-your-device="macbook">
+            <div class="yd-top">
+              <div>
+                <p class="yd-name">MacBook Air</p>
+                <p class="yd-sub" style="margin-bottom:0">Jamiahs-MacBook-Air-2</p>
+              </div>
+              <span class="yd-tag">Your device</span>
+            </div>
+            <p class="yd-status" style="margin-bottom:0">● Online</p>
+            <dl class="yd-specs">
+              <div><dt>Hostname</dt><dd class="mono">Jamiahs-MacBook-Air-2.local</dd></div>
+              <div><dt>Chip</dt><dd>Apple M5</dd></div>
+              <div><dt>Memory</dt><dd>16 GB</dd></div>
+              <div><dt>Operating system</dt><dd>macOS 26.6.2</dd></div>
+              <div><dt>Apps installed</dt><dd>78</dd></div>
+              <div><dt>Main drive</dt><dd>460 GB · 324 GB free</dd></div>
+              <div><dt>Signed-in user</dt><dd class="mono">jamiahmcquiller</dd></div>
+              <div><dt>Agent check-in</dt><dd>Every 30 minutes</dd></div>
+            </dl>
+          </article>
+          <article class="yd-card" data-device="iPhone 17 Pro Max" data-your-device="iphone">
+            <div class="yd-top">
+              <div>
+                <p class="yd-name">iPhone 17 Pro Max</p>
+              </div>
+              <span class="yd-tag">Your device</span>
+            </div>
+            <p class="yd-status" style="margin-bottom:0">● Online</p>
+            <dl class="yd-specs">
+              <div><dt>Operating system</dt><dd>iOS 27.3</dd></div>
+              <div><dt>Chip</dt><dd>A19 Pro (6 cores)</dd></div>
+              <div><dt>Memory</dt><dd>12 GB</dd></div>
+              <div><dt>Storage</dt><dd>256 GB · 80.18 GB free</dd></div>
+              <div><dt>Apps installed</dt><dd>100</dd></div>
+            </dl>
+          </article>
+        </div>
+      </section>
+
       <div class="filters">
         <input class="field searchf" id="fSearch" aria-label="Search endpoints" placeholder="Search endpoints…" />
         <select class="field" id="fStatus" aria-label="Filter by status" style="width:auto"><option value="">All Status</option><option value="compliant">Compliant</option><option value="vulnerable">Vulnerable</option></select>
@@ -208,6 +288,18 @@ table.itsm tbody tr:hover{background:rgba(23,20,16,.035)}
 </div>
 
 <div id="modalRoot"></div>
+
+<!-- Agent live-status tooltip -->
+<div class="agent-tip" id="agentTip" role="tooltip" aria-hidden="true">
+  <div class="tip-row"><span class="tip-label">Agent Live Status:</span><span class="tip-val">Live</span></div>
+  <div class="tip-row"><span class="tip-label">Updated Time</span><span class="tip-val" id="agentTipTime">: —</span></div>
+</div>
+
+<!-- Right-click context menu -->
+<div class="ctx-menu" id="ctxMenu" role="menu" aria-label="Device actions"></div>
+
+<!-- Demo toast -->
+<div class="demo-toast" id="demoToast" role="status" aria-live="polite"></div>
 
 <script>
 function navIcon(paths){
@@ -254,6 +346,7 @@ var SCREEN_LINKS={
  vulnerabilities:"null-itsm-vulnerabilities.html",
  cmdb:"null-itsm-cmdb.html",
  changes:"null-itsm-changes.html",
+ problems:"null-itsm-problem-management.html",
  analytics:"null-itsm-analytics.html",
  settings:"null-itsm-platform-settings.html"
 };
@@ -368,7 +461,7 @@ function renderTable(){
   var h='<div class="tablewrap"><table class="itsm"><thead><tr><th aria-label="Select"></th><th>Device Name</th><th>User</th><th>OS</th><th>Status</th><th>Vulns</th><th>Last Check-In</th><th>Actions</th></tr></thead><tbody>';
   rows.forEach(function(e,i){
     var idx=endpoints.indexOf(e);
-    h+='<tr><td><input type="checkbox" aria-label="Select '+esc(e.name)+'" style="width:16px;height:16px" /></td>'+
+    h+='<tr data-device="'+esc(e.name)+'" data-checkin="'+esc(e.checkin)+'"><td><input type="checkbox" aria-label="Select '+esc(e.name)+'" style="width:16px;height:16px" /></td>'+
     '<td class="mono">'+esc(e.name)+'</td><td class="nowrap">'+esc(e.user||"—")+'</td><td class="nowrap">'+esc(e.os)+'</td>'+
     '<td>'+(e.status==="compliant"?'<span class="status-compliant">● Compliant</span>':'<span class="status-vulnerable">● Vulnerable</span>')+(!e.patch?'<span class="patchbehind">Patch behind</span>':'')+'</td>'+
     '<td>'+e.vulns+'</td><td class="nowrap dim">'+esc(e.checkin)+'</td>'+
@@ -429,6 +522,202 @@ document.getElementById("addBtn").addEventListener("click",function(){
 });
 
 renderKpis(); syncNav(); renderTable();
+
+/* ===== Agent live-status tooltip + right-click context menu (demo) ===== */
+(function(){
+  var tip=document.getElementById("agentTip");
+  var tipTime=document.getElementById("agentTipTime");
+  var menu=document.getElementById("ctxMenu");
+  var toast=document.getElementById("demoToast");
+  var toastTimer=null;
+  var currentDevice="";
+
+  var MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  function fmtTime(d){
+    var h=d.getHours(), m=d.getMinutes();
+    var ap=h>=12?"PM":"AM"; h=h%12; if(h===0)h=12;
+    var hh=(h<10?"0":"")+h, mm=(m<10?"0":"")+m;
+    return MONTHS[d.getMonth()]+" "+d.getDate()+", "+d.getFullYear()+" "+hh+":"+mm+" "+ap;
+  }
+  /* Your Devices check-ins: MacBook agent checks in every 30 minutes, so stamp a
+     time inside that window at load; the iPhone gets its own recent stamp too. */
+  var macTime=fmtTime(new Date(Date.now()-8*60000));
+  var iphoneTime=fmtTime(new Date(Date.now()-3*60000));
+  document.querySelectorAll(".yd-card").forEach(function(card){
+    var kind=card.getAttribute("data-your-device");
+    card.setAttribute("data-checkin", kind==="iphone"?iphoneTime:macTime);
+  });
+
+  function deviceEl(target){
+    if(!target||!target.closest) return null;
+    return target.closest("tr[data-device], .yd-card[data-device]");
+  }
+  function checkinFor(el){
+    if(!el) return "";
+    var c=el.getAttribute("data-checkin");
+    if(c) return c;
+    /* demo table rows: fall back to the row's own Last Check-In cell */
+    var cells=el.querySelectorAll("td");
+    if(cells.length>=7) return cells[6].textContent.trim();
+    return "";
+  }
+
+  /* --- Tooltip --- */
+  var tipVisible=false;
+  function showTip(el,x,y){
+    var c=checkinFor(el);
+    tipTime.textContent=": "+c;
+    tip.style.display="block";
+    tip.setAttribute("aria-hidden","false");
+    tipVisible=true;
+    moveTip(x,y);
+  }
+  function moveTip(x,y){
+    if(!tipVisible) return;
+    var w=tip.offsetWidth, h=tip.offsetHeight;
+    var left=x+14, top=y-h-12;
+    if(left+w>window.innerWidth-8) left=window.innerWidth-w-8;
+    if(left<8) left=8;
+    if(top<8) top=y+18;
+    if(top+h>window.innerHeight-8) top=window.innerHeight-h-8;
+    tip.style.left=left+"px";
+    tip.style.top=top+"px";
+  }
+  function hideTip(){
+    tip.style.display="none";
+    tip.setAttribute("aria-hidden","true");
+    tipVisible=false;
+  }
+  document.addEventListener("mouseover",function(e){
+    var el=deviceEl(e.target);
+    if(el && !menu.classList.contains("open")) showTip(el,e.clientX,e.clientY);
+    else if(!el) hideTip();
+  });
+  document.addEventListener("mousemove",function(e){
+    if(tipVisible) moveTip(e.clientX,e.clientY);
+  });
+  document.addEventListener("mouseout",function(e){
+    var el=deviceEl(e.target);
+    if(el && !el.contains(e.relatedTarget)) hideTip();
+  });
+  window.addEventListener("scroll",function(){ hideTip(); },{passive:true});
+
+  /* --- Demo toast --- */
+  function showToast(action,device){
+    toast.textContent="Demo: "+action+" requested for "+device+" \u2014 no real action taken";
+    toast.classList.add("show");
+    if(toastTimer) clearTimeout(toastTimer);
+    toastTimer=setTimeout(function(){ toast.classList.remove("show"); },3600);
+  }
+
+  /* --- Context menu --- */
+  var MENU=[
+    {label:"Patch Scan"},
+    {label:"Asset Scan"},
+    {sep:true},
+    {label:"Deploy Configuration"},
+    {sep:true},
+    {label:"Shutdown"},
+    {label:"Restart"},
+    {label:"System Manager",sub:["Task Manager","Task Scheduler","Computer Name","Services","Command Prompt","PowerShell","Registry","File Manager","Event Viewer","Device Manager","Shares","Printers","Groups","Hardware","Software","Users"]},
+    {label:"Remote Control"},
+    {label:"Chat"},
+    {sep:true},
+    {label:"Vulnerability Details"},
+    {label:"Inventory Details"}
+  ];
+  function buildMenu(){
+    var h="";
+    MENU.forEach(function(item){
+      if(item.sep){ h+='<div class="ctx-sep" role="separator"></div>'; return; }
+      if(item.sub){
+        h+='<div class="ctx-has-sub"><button type="button" class="ctx-item" data-subtoggle="1" role="menuitem" aria-haspopup="true">'+esc(item.label)+'<span class="ctx-arrow" aria-hidden="true">\u203A</span></button><div class="ctx-submenu" role="menu">';
+        item.sub.forEach(function(s){ h+='<button type="button" class="ctx-item" data-action="'+esc(s)+'" role="menuitem">'+esc(s)+'</button>'; });
+        h+='</div></div>';
+        return;
+      }
+      h+='<button type="button" class="ctx-item" data-action="'+esc(item.label)+'" role="menuitem">'+esc(item.label)+'</button>';
+    });
+    menu.innerHTML=h;
+    menu.querySelectorAll("[data-action]").forEach(function(b){
+      b.addEventListener("click",function(){
+        var action=b.getAttribute("data-action");
+        var dev=currentDevice;
+        closeMenu();
+        showToast(action,dev);
+      });
+    });
+    var subWrap=menu.querySelector(".ctx-has-sub");
+    var subBtn=menu.querySelector("[data-subtoggle]");
+    var subMenu=menu.querySelector(".ctx-submenu");
+    function openSub(){
+      /* flip the submenu to the left if it would run off the right edge */
+      subMenu.classList.remove("flip");
+      subWrap.classList.add("open");
+      var r=subMenu.getBoundingClientRect();
+      if(r.right>window.innerWidth-8) subMenu.classList.add("flip");
+      var r2=subMenu.getBoundingClientRect();
+      if(r2.bottom>window.innerHeight-8){ subMenu.style.top=Math.min(0,(window.innerHeight-8)-r2.bottom)+"px"; }
+    }
+    subWrap.addEventListener("mouseenter",openSub);
+    subWrap.addEventListener("mouseleave",function(){ subWrap.classList.remove("open"); subMenu.style.top=""; });
+    subBtn.addEventListener("click",function(e){ e.stopPropagation(); if(subWrap.classList.contains("open")){ subWrap.classList.remove("open"); } else { openSub(); } });
+  }
+  buildMenu();
+
+  function openMenu(x,y,device){
+    currentDevice=device;
+    hideTip();
+    menu.querySelector(".ctx-has-sub").classList.remove("open");
+    menu.classList.add("open");
+    menu.style.left="0px"; menu.style.top="0px";
+    var w=menu.offsetWidth, h=menu.offsetHeight;
+    var left=x, top=y;
+    if(left+w>window.innerWidth-8) left=window.innerWidth-w-8;
+    if(top+h>window.innerHeight-8) top=window.innerHeight-h-8;
+    if(left<8) left=8;
+    if(top<8) top=8;
+    menu.style.left=left+"px";
+    menu.style.top=top+"px";
+  }
+  function closeMenu(){ menu.classList.remove("open"); }
+  function menuOpen(){ return menu.classList.contains("open"); }
+
+  document.addEventListener("contextmenu",function(e){
+    var el=deviceEl(e.target);
+    if(el){
+      e.preventDefault();
+      openMenu(e.clientX,e.clientY,el.getAttribute("data-device"));
+    } else {
+      closeMenu();
+    }
+  });
+  document.addEventListener("mousedown",function(e){
+    if(menuOpen() && !menu.contains(e.target)) closeMenu();
+  });
+  document.addEventListener("keydown",function(e){
+    if(e.key==="Escape"){ closeMenu(); hideTip(); }
+  });
+  window.addEventListener("scroll",function(){ closeMenu(); },{passive:true,capture:true});
+  window.addEventListener("resize",function(){ closeMenu(); });
+
+  /* Long-press opens the menu on touch devices */
+  var pressTimer=null, pressStart=null;
+  document.addEventListener("touchstart",function(e){
+    var el=deviceEl(e.target);
+    if(!el) return;
+    var t=e.touches[0];
+    pressStart={x:t.clientX,y:t.clientY,device:el.getAttribute("data-device")};
+    pressTimer=setTimeout(function(){
+      if(pressStart) openMenu(pressStart.x,pressStart.y,pressStart.device);
+      pressTimer=null;
+    },550);
+  },{passive:true});
+  function cancelPress(){ if(pressTimer){ clearTimeout(pressTimer); pressTimer=null; } pressStart=null; }
+  document.addEventListener("touchmove",cancelPress,{passive:true});
+  document.addEventListener("touchend",cancelPress,{passive:true});
+  document.addEventListener("touchcancel",cancelPress,{passive:true});
+})();
 </script>
 <script src="data:application/javascript;base64,LyogTlVMTCBJVFNNIOKAlCBzaGFyZWQgZGVtb25zdHJhdGlvbiBhdXRoZW50aWNhdGlvbiAoc3RhdGljIGRlbW8gb25seSkuCiAgIFJlYWwgYXV0aGVudGljYXRpb24gcmVxdWlyZXMgYSBzZWN1cmUgYmFja2VuZDsgdGhpcyBzZXNzaW9uU3RvcmFnZQogICBjaGVjayBpcyBhIGZyb250LWVuZCBkZW1vbnN0cmF0aW9uIGdhdGUgZm9yIHRoZSBHaXRIdWIgUGFnZXMgYnVpbGQuICovCihmdW5jdGlvbiAoKSB7CiAgdmFyIFNFU1NJT05fS0VZID0gIm51bGwtaXRzbS1zZXNzaW9uIjsKICB2YXIgU0lHTl9JTl9QQUdFID0gIm51bGwtaXRzbS1zaWduLWluLmh0bWwiOwoKICBmdW5jdGlvbiBnZXRTZXNzaW9uKCkgewogICAgdHJ5IHsKICAgICAgdmFyIHJhdyA9IHNlc3Npb25TdG9yYWdlLmdldEl0ZW0oU0VTU0lPTl9LRVkpOwogICAgICByZXR1cm4gcmF3ID8gSlNPTi5wYXJzZShyYXcpIDogbnVsbDsKICAgIH0gY2F0Y2ggKGUpIHsKICAgICAgcmV0dXJuIG51bGw7CiAgICB9CiAgfQoKICBmdW5jdGlvbiBpc0F1dGhlbnRpY2F0ZWQoKSB7CiAgICB2YXIgcyA9IGdldFNlc3Npb24oKTsKICAgIHJldHVybiAhIShzICYmIHMudXNlcik7CiAgfQoKICBmdW5jdGlvbiByZXF1aXJlQXV0aCgpIHsKICAgIGlmICghaXNBdXRoZW50aWNhdGVkKCkpIHsKICAgICAgd2luZG93LmxvY2F0aW9uLnJlcGxhY2UoU0lHTl9JTl9QQUdFKTsKICAgICAgcmV0dXJuIGZhbHNlOwogICAgfQogICAgcmV0dXJuIHRydWU7CiAgfQoKICBmdW5jdGlvbiBzaWduT3V0KCkgewogICAgdHJ5IHsgc2Vzc2lvblN0b3JhZ2UucmVtb3ZlSXRlbShTRVNTSU9OX0tFWSk7IH0gY2F0Y2ggKGUpIHt9CiAgICB3aW5kb3cubG9jYXRpb24ucmVwbGFjZShTSUdOX0lOX1BBR0UpOwogIH0KCiAgZnVuY3Rpb24gYXBwbHlTZXNzaW9uVXNlcigpIHsKICAgIHZhciBzID0gZ2V0U2Vzc2lvbigpOwogICAgaWYgKCFzIHx8ICFzLnVzZXIpIHJldHVybjsKICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoIltkYXRhLXVzZXItbmFtZV0iKS5mb3JFYWNoKGZ1bmN0aW9uIChlbCkgewogICAgICBlbC50ZXh0Q29udGVudCA9IHMudXNlcjsKICAgIH0pOwogIH0KCiAgZnVuY3Rpb24gd2lyZVNpZ25PdXQoKSB7CiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJbZGF0YS1zaWduLW91dF0iKS5mb3JFYWNoKGZ1bmN0aW9uIChlbCkgewogICAgICBlbC5hZGRFdmVudExpc3RlbmVyKCJjbGljayIsIGZ1bmN0aW9uIChlKSB7CiAgICAgICAgZS5wcmV2ZW50RGVmYXVsdCgpOwogICAgICAgIHNpZ25PdXQoKTsKICAgICAgfSk7CiAgICB9KTsKICB9CgogIGZ1bmN0aW9uIGd1YXJkKCkgewogICAgaWYgKGRvY3VtZW50LmJvZHkgJiYgZG9jdW1lbnQuYm9keS5oYXNBdHRyaWJ1dGUoImRhdGEtcmVxdWlyZXMtYXV0aCIpKSB7CiAgICAgIGlmICghcmVxdWlyZUF1dGgoKSkgcmV0dXJuOwogICAgfQogICAgYXBwbHlTZXNzaW9uVXNlcigpOwogICAgd2lyZVNpZ25PdXQoKTsKICB9CgogIC8qIEJhY2svZm9yd2FyZCBjYWNoZTogcmUtY2hlY2sgdGhlIHNlc3Npb24gd2hlbiB0aGUgcGFnZSBpcyByZXN0b3JlZAogICAgIGZyb20gYmZjYWNoZSBzbyBwcm90ZWN0ZWQgY29udGVudCBpcyBub3QgZXhwb3NlZCBhZnRlciBzaWduLW91dC4gKi8KICB3aW5kb3cuYWRkRXZlbnRMaXN0ZW5lcigicGFnZXNob3ciLCBmdW5jdGlvbiAoZSkgewogICAgaWYgKGUucGVyc2lzdGVkICYmIGRvY3VtZW50LmJvZHkgJiYgZG9jdW1lbnQuYm9keS5oYXNBdHRyaWJ1dGUoImRhdGEtcmVxdWlyZXMtYXV0aCIpKSB7CiAgICAgIHJlcXVpcmVBdXRoKCk7CiAgICB9CiAgfSk7CgogIGlmIChkb2N1bWVudC5yZWFkeVN0YXRlID09PSAibG9hZGluZyIpIHsKICAgIGRvY3VtZW50LmFkZEV2ZW50TGlzdGVuZXIoIkRPTUNvbnRlbnRMb2FkZWQiLCBndWFyZCk7CiAgfSBlbHNlIHsKICAgIGd1YXJkKCk7CiAgfQoKICB3aW5kb3cuTnVsbEF1dGggPSB7CiAgICBnZXRTZXNzaW9uOiBnZXRTZXNzaW9uLAogICAgaXNBdXRoZW50aWNhdGVkOiBpc0F1dGhlbnRpY2F0ZWQsCiAgICByZXF1aXJlQXV0aDogcmVxdWlyZUF1dGgsCiAgICBzaWduT3V0OiBzaWduT3V0CiAgfTsKfSkoKTsK"></script>
 <script src="data:application/javascript;base64,LyogTlVMTCBJVFNNIOKAlCBzaGFyZWQgbmF2aWdhdGlvbiBoZWxwZXJzIGZvciB0aGUgY29ubmVjdGVkIGFwcGxpY2F0aW9uLgogICBNb2R1bGUgcGFnZXMgbGluayB0byBlYWNoIG90aGVyIHdpdGggcGxhaW4gcmVsYXRpdmUgaHJlZnMgKHNlZSBlYWNoCiAgIHBhZ2UncyBTQ1JFRU5fTElOS1MgbWFwKTsgdGhpcyBzY3JpcHQga2VlcHMgdGhlIGFjdGl2ZSBtb2R1bGUKICAgaGlnaGxpZ2h0ZWQgYW5kIG1ha2VzIHN1cmUgc2lnbi1vdXQgY29udHJvbHMgc3RheSB3aXJlZCBldmVuIGlmIGEKICAgcGFnZSByZW5kZXJzIGl0cyBuYXZpZ2F0aW9uIGFmdGVyIGxvYWQuICovCihmdW5jdGlvbiAoKSB7CiAgdmFyIE1PRFVMRV9GSUxFUyA9IHsKICAgICJudWxsLWl0c20tY29tbWFuZC1jZW50ZXIuaHRtbCI6ICJob21lIiwKICAgICJudWxsLWl0c20tdGlja2V0cy5odG1sIjogInRpY2tldHMiLAogICAgIm51bGwtaXRzbS1lbmRwb2ludHMuaHRtbCI6ICJlbmRwb2ludHMiLAogICAgIm51bGwtaXRzbS1jaGFuZ2VzLmh0bWwiOiAiY2hhbmdlcyIsCiAgICAibnVsbC1pdHNtLWNtZGIuaHRtbCI6ICJjbWRiIiwKICAgICJudWxsLWl0c20tYW5hbHl0aWNzLmh0bWwiOiAiYW5hbHl0aWNzIiwKICAgICJudWxsLWl0c20tcGxhdGZvcm0tc2V0dGluZ3MuaHRtbCI6ICJzZXR0aW5ncyIKICB9OwoKICBmdW5jdGlvbiBjdXJyZW50RmlsZSgpIHsKICAgIHZhciBwYXRoID0gd2luZG93LmxvY2F0aW9uLnBhdGhuYW1lIHx8ICIiOwogICAgdmFyIHBhcnRzID0gcGF0aC5zcGxpdCgiLyIpOwogICAgcmV0dXJuIHBhcnRzW3BhcnRzLmxlbmd0aCAtIDFdIHx8ICIiOwogIH0KCiAgZnVuY3Rpb24gaGlnaGxpZ2h0QWN0aXZlKCkgewogICAgdmFyIGFjdGl2ZSA9IE1PRFVMRV9GSUxFU1tjdXJyZW50RmlsZSgpXTsKICAgIGlmICghYWN0aXZlKSByZXR1cm47CiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJhLm5hdmJ0bltocmVmXSIpLmZvckVhY2goZnVuY3Rpb24gKGEpIHsKICAgICAgdmFyIGhyZWYgPSBhLmdldEF0dHJpYnV0ZSgiaHJlZiIpIHx8ICIiOwogICAgICB2YXIgZmlsZSA9IGhyZWYuc3BsaXQoIi8iKS5wb3AoKTsKICAgICAgaWYgKE1PRFVMRV9GSUxFU1tmaWxlXSA9PT0gYWN0aXZlKSB7CiAgICAgICAgYS5jbGFzc0xpc3QuYWRkKCJhY3RpdmUiKTsKICAgICAgICBhLnNldEF0dHJpYnV0ZSgiYXJpYS1jdXJyZW50IiwgInBhZ2UiKTsKICAgICAgfQogICAgfSk7CiAgfQoKICBmdW5jdGlvbiB3aXJlU2lnbk91dEZhbGxiYWNrKCkgewogICAgaWYgKHdpbmRvdy5OdWxsQXV0aCkgcmV0dXJuOyAvKiBhdXRoLmpzIGFscmVhZHkgd2lyZXMgW2RhdGEtc2lnbi1vdXRdICovCiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJbZGF0YS1zaWduLW91dF0iKS5mb3JFYWNoKGZ1bmN0aW9uIChlbCkgewogICAgICBlbC5hZGRFdmVudExpc3RlbmVyKCJjbGljayIsIGZ1bmN0aW9uIChlKSB7CiAgICAgICAgZS5wcmV2ZW50RGVmYXVsdCgpOwogICAgICAgIHRyeSB7IHNlc3Npb25TdG9yYWdlLnJlbW92ZUl0ZW0oIm51bGwtaXRzbS1zZXNzaW9uIik7IH0gY2F0Y2ggKGVycikge30KICAgICAgICB3aW5kb3cubG9jYXRpb24ucmVwbGFjZSgibnVsbC1pdHNtLXNpZ24taW4uaHRtbCIpOwogICAgICB9KTsKICAgIH0pOwogIH0KCiAgZnVuY3Rpb24gaW5pdCgpIHsKICAgIGhpZ2hsaWdodEFjdGl2ZSgpOwogICAgd2lyZVNpZ25PdXRGYWxsYmFjaygpOwogIH0KCiAgaWYgKGRvY3VtZW50LnJlYWR5U3RhdGUgPT09ICJsb2FkaW5nIikgewogICAgZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcigiRE9NQ29udGVudExvYWRlZCIsIGluaXQpOwogIH0gZWxzZSB7CiAgICBpbml0KCk7CiAgfQp9KSgpOwo="></script>
