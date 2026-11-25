@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="data:," />
+    <title>NULL — ITSM Screens</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,700;6..96,800;6..96,900&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #f2eee6;
+        --ink: #171717;
+        --ink-soft: #55514d;
+        --rule: #c9c2b9;
+        --accent: #a17acb;
+        --accent-deep: #7d55b5;
+      }
+
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Fine paper grain */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.5;
+        background-image: radial-gradient(rgba(23, 23, 23, 0.055) 1px, transparent 1px);
+        background-size: 5px 5px;
+        z-index: 0;
+      }
+
+      .page {
+        position: relative;
+        z-index: 1;
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 56px 40px 72px;
+      }
+
+      /* ---------- Masthead ---------- */
+      .masthead {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .wordmark {
+        font-family: "Bodoni Moda", "Didot", "Bodoni MT", serif;
+        font-weight: 500;
+        font-size: clamp(64px, 11vw, 108px);
+        line-height: 0.9;
+        letter-spacing: 0.01em;
+        margin: 0;
+      }
+
+      .wordmark sup {
+        font-size: 0.22em;
+        font-weight: 500;
+        vertical-align: super;
+        border: 1.5px solid var(--ink);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.9em;
+        height: 1.9em;
+        margin-left: 0.35em;
+        transform: translateY(-0.4em);
+      }
+
+      .version {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        padding-top: 14px;
+        white-space: nowrap;
+      }
+
+      .kicker {
+        margin: 18px 0 0;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.42em;
+        text-transform: uppercase;
+      }
+
+      /* ---------- Heading ---------- */
+      .headline {
+        font-family: "Bodoni Moda", "Didot", "Bodoni MT", serif;
+        font-weight: 700;
+        font-size: clamp(44px, 7.5vw, 76px);
+        line-height: 1.04;
+        margin: 64px 0 0;
+      }
+
+      .deck {
+        margin: 22px 0 0;
+        max-width: 46ch;
+        font-size: 17px;
+        line-height: 1.55;
+        color: var(--ink);
+      }
+
+      .deck strong { font-weight: 700; display: block; margin-bottom: 2px; }
+
+      /* ---------- Screen index ---------- */
+      .index {
+        margin-top: 56px;
+        border-top: 1px solid var(--ink);
+      }
+
+      .screen {
+        display: grid;
+        grid-template-columns: 56px 1fr auto;
+        align-items: baseline;
+        gap: 8px 20px;
+        padding: 22px 4px 20px;
+        border-bottom: 1px solid var(--rule);
+        text-decoration: none;
+        color: var(--ink);
+        min-height: 44px;
+        transition: background-color 0.15s ease, padding-left 0.15s ease;
+      }
+
+      .screen:hover,
+      .screen:focus-visible {
+        background: rgba(161, 122, 203, 0.08);
+        padding-left: 12px;
+        outline: none;
+      }
+
+      .screen:focus-visible {
+        box-shadow: inset 0 0 0 2px var(--accent);
+      }
+
+      .screen .num {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        color: var(--accent-deep);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .screen .name {
+        font-family: "Bodoni Moda", "Didot", "Bodoni MT", serif;
+        font-weight: 700;
+        font-size: clamp(24px, 4.5vw, 32px);
+        line-height: 1.1;
+        display: block;
+      }
+
+      .screen .desc {
+        display: block;
+        margin-top: 5px;
+        font-family: "Inter", sans-serif;
+        font-size: 14.5px;
+        font-weight: 400;
+        line-height: 1.45;
+        color: var(--ink-soft);
+      }
+
+      .screen .arrow {
+        font-size: 20px;
+        line-height: 1;
+        color: var(--ink);
+        transition: transform 0.15s ease, color 0.15s ease;
+      }
+
+      .screen:hover .arrow,
+      .screen:focus-visible .arrow {
+        transform: translateX(4px);
+        color: var(--accent-deep);
+      }
+
+      /* ---------- Footer tags ---------- */
+      .tags {
+        margin-top: 48px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 28px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--ink);
+      }
+
+      .tags span::before { content: "[ "; color: var(--ink-soft); font-weight: 400; }
+      .tags span::after { content: " ]"; color: var(--ink-soft); font-weight: 400; }
+
+      .plus {
+        position: absolute;
+        color: var(--accent);
+        font-weight: 300;
+        pointer-events: none;
+        user-select: none;
+        line-height: 1;
+      }
+
+      .plus-a { top: 30%; right: 4%; font-size: 34px; }
+      .plus-b { bottom: 12%; right: 10%; font-size: 28px; }
+      .plus-c { bottom: 34%; left: 2.5%; font-size: 26px; }
+
+      @media (max-width: 560px) {
+        .page { padding: 36px 22px 56px; }
+        .headline { margin-top: 44px; }
+        .index { margin-top: 40px; }
+        .screen {
+          grid-template-columns: 40px 1fr auto;
+          gap: 6px 12px;
+          padding: 18px 2px 16px;
+        }
+        .screen:hover, .screen:focus-visible { padding-left: 8px; }
+        .kicker { letter-spacing: 0.3em; font-size: 12px; }
+        .plus-a, .plus-b, .plus-c { display: none; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .screen, .screen .arrow { transition: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <span class="plus plus-a" aria-hidden="true">+</span>
+    <span class="plus plus-b" aria-hidden="true">+</span>
+    <span class="plus plus-c" aria-hidden="true">+</span>
+
+    <div class="page">
+      <header>
+        <div class="masthead">
+          <h1 class="wordmark">NULL<sup>R</sup></h1>
+          <div class="version">V1.0</div>
+        </div>
+        <p class="kicker">IT Service Management</p>
+      </header>
+
+      <main>
+        <h2 class="headline">ITSM Screens.</h2>
+        <p class="deck">
+          <strong>Service. Assets. Change. Compliance.</strong>
+          Every screen in the platform, in one place. Pick a screen to open it.
+        </p>
+
+        <nav class="index" aria-label="NULL ITSM screens">
+          <a class="screen" href="null-itsm-sign-in.html">
+            <span class="num">01</span>
+            <span>
+              <span class="name">Sign In</span>
+              <span class="desc">The sign-in screen</span>
+            </span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <a class="screen" href="null-itsm-command-center.html">
+            <span class="num">02</span>
+            <span>
+              <span class="name">Command Center</span>
+              <span class="desc">Overview dashboard</span>
+            </span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <a class="screen" href="null-itsm-tickets.html">
+            <span class="num">03</span>
+            <span>
+              <span class="name">Tickets</span>
+              <span class="desc">Service desk requests</span>
+            </span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <a class="screen" href="null-itsm-requests.html">
+            <span class="num">04</span>
+            <span>
+              <span class="name">Requests</span>
+              <span class="desc">Service requests</span>
+            </span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <a class="screen" href="null-itsm-knowledge-base.html">
+            <span class="num">05</span>
+            <span>
+              <span class="name">Knowledge Base</span>
+              <span class="desc">Help articles and guides</span>
+            </span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <a class="screen" href="null-itsm-service-catalog.html">
+            <span class="num">06</span>
+            <span>
+              <span class="name">Service Catalog</span>
+              <span class="desc">Requestable services</span>
+            </span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <a class="screen" href="null-itsm-endpoints.html">
+            <span class="num">07</span>
+            <span>
+              <span class="name">Endpoints</span>
+              <span class="desc">Managed devices</span>
+            </span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <a class="screen" href="null-itsm-patching.html">
+            <span class="num">08</span>
+            <span>
+              <span class="name">Patching</span>
+              <span class="desc">Patch compliance and schedule</span>
+            </span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <a class="screen" href="null-itsm-vulnerabilities.html">
+            <span class="num">09</span>
+            <span>
+              <span class="name">Vulnerabilities</span>
+              <span class="desc">Vulnerabilities by severity</span>
+            </span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <a class="screen" href="null-itsm-changes.html">
+            <span class="num">10</span>
+            <span>
+              <span class="name">Changes</span>
+              <span class="desc">Change management</span>
+            </span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <a class="screen" href="null-itsm-cmdb.html">
+            <span class="num">11</span>
+            <span>
+              <span class="name">CMDB</span>
+              <span class="desc">Configuration items</span>
+            </span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <a class="screen" href="null-itsm-analytics.html">
+            <span class="num">12</span>
+            <span>
+              <span class="name">Analytics</span>
+              <span class="desc">Reports and trends</span>
+            </span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <a class="screen" href="null-itsm-platform-settings.html">
+            <span class="num">13</span>
+            <span>
+              <span class="name">Platform Settings</span>
+              <span class="desc">System settings</span>
+            </span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </nav>
+
+        <div class="tags" aria-hidden="true">
+          <span>Service Desk</span>
+          <span>Endpoints</span>
+          <span>Change</span>
+          <span>CMDB</span>
+          <span>Compliance</span>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
