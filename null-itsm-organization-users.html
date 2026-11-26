@@ -159,7 +159,8 @@
   .modal .msub{color:var(--ink2);font-size:13.5px;margin:0 0 16px}
   .field{margin-bottom:13px}
   .field label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ink2);margin-bottom:5px}
-  .field input,.field select,.field textarea{width:100%;border:1px solid var(--line2);border-radius:7px;background:#fff;padding:9px 11px;font-family:var(--sans);font-size:14px;color:var(--ink)}
+  .field input:not([type="checkbox"]):not([type="radio"]),.field select,.field textarea{width:100%;border:1px solid var(--line2);border-radius:7px;background:#fff;padding:9px 11px;font-family:var(--sans);font-size:14px;color:var(--ink)}
+  .field input[type="checkbox"],.field input[type="radio"]{width:auto;flex:0 0 auto;padding:0}
   .field textarea{min-height:74px;resize:vertical}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .modal .m-actions{display:flex;gap:10px;margin-top:18px}
@@ -287,6 +288,46 @@ table.u-table td:nth-child(2),table.u-table td:nth-child(3){white-space:nowrap}
 </style>
 
 <style>[data-platform-only]{display:none!important}</style>
+<style id="null-topbar">
+/* NULL ITSM canonical top bar — one shared chrome for every internal page.
+   Appended after all page styles; header.topbar-prefixed selectors out-specify
+   the older per-page topbar rules without touching them. */
+header.topbar{display:flex;align-items:center;gap:14px;padding:10px 26px;border-bottom:1px solid #E5DED2;background:#FBF9F4;position:sticky;top:0;z-index:20}
+header.topbar .menu-btn{width:38px;height:38px;border:0;background:transparent;border-radius:50%;font-size:18px;line-height:1;color:var(--ink,#171512);display:grid;place-items:center;cursor:pointer;flex:0 0 auto}
+header.topbar .menu-btn:hover{background:#EFE9DC}
+header.topbar .mobile-brand{display:none;font-family:var(--serif,Georgia,'Times New Roman',serif);font-weight:800;font-size:21px;color:var(--ink,#171512);letter-spacing:.02em}
+header.topbar .search{flex:1;max-width:560px;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line2,#DDD5C5);border-radius:7px;padding:0 12px;height:38px;box-sizing:border-box}
+header.topbar .search>span{color:var(--muted,#8A8375);font-size:15px}
+header.topbar .search input{border:0;outline:0;background:transparent;flex:1;min-width:0;font:inherit;font-size:13.5px;color:var(--ink,#171512)}
+header.topbar .search input::placeholder{color:var(--muted,#8A8375)}
+header.topbar .top-icons{display:flex;align-items:center;gap:4px;margin-left:auto;flex:0 0 auto}
+header.topbar .icon-btn{width:38px;height:38px;border:0;background:transparent;border-radius:50%;font-size:16px;color:var(--ink2,#5A544A);display:grid;place-items:center;cursor:pointer;position:relative;padding:0}
+header.topbar .icon-btn:hover{background:#EFE9DC}
+header.topbar .icon-btn svg{display:block}
+header.topbar .notif-badge{position:absolute;top:2px;right:2px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:#171512;color:#F5F1E6;font-size:10px;font-weight:700;line-height:17px;text-align:center;box-sizing:border-box}
+header.topbar .user-wrap{position:relative;flex:0 0 auto}
+header.topbar .user-chip{display:flex;align-items:center;gap:10px;padding:4px 6px 4px 4px;border:0;background:transparent;text-align:left;cursor:pointer}
+header.topbar .user-chip .avatar{width:36px;height:36px;border-radius:50%;background:#171512;color:#F5F1E6;display:grid;place-items:center;font-weight:700;font-size:12.5px;flex:0 0 36px}
+header.topbar .user-chip .who{display:flex;flex-direction:column;line-height:1.2;min-width:0}
+header.topbar .user-chip .who b{font-size:13.5px;font-weight:700;color:var(--ink,#171512);white-space:nowrap}
+header.topbar .user-chip .who .role{font-size:11.5px;color:var(--muted,#8A8375);white-space:nowrap}
+header.topbar .user-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:260px;background:#FFFDF8;border:1px solid var(--line2,#DDD5C5);border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.16);padding:14px;z-index:50;box-sizing:border-box}
+header.topbar .user-menu[hidden]{display:none}
+header.topbar .user-menu .um-head{padding:2px 4px 10px;border-bottom:1px solid var(--line,#E5DED2);margin-bottom:10px}
+header.topbar .user-menu .um-head b{display:block;font-size:14px;color:var(--ink,#171512)}
+header.topbar .user-menu .um-head span{font-size:12px;color:var(--muted,#8A8375)}
+header.topbar .user-menu .um-note{font-size:12px;line-height:1.5;color:var(--muted,#8A8375);margin:0 0 12px;padding:0 4px}
+header.topbar .user-menu .signout-btn{display:block;width:100%;text-align:left;background:none;border:0;padding:8px 10px;font-size:13px;font-weight:600;color:var(--ink,#171512);cursor:pointer;border-radius:6px}
+header.topbar .user-menu .signout-btn:hover{background:#F2EEE6}
+@media (max-width:860px){
+  header.topbar{padding:10px 14px;gap:10px}
+  header.topbar .search{display:none}
+  header.topbar .mobile-brand{display:block}
+  header.topbar .user-chip .who{display:none}
+  header.topbar .user-chip{padding:4px}
+}
+
+</style>
 </head>
 <body data-requires-auth>
 <div class="app">
@@ -324,27 +365,82 @@ table.u-table td:nth-child(2),table.u-table td:nth-child(3){white-space:nowrap}
 
   <!-- ================= MAIN ================= -->
   <div class="main">
-    <div class="topbar">
-      <button class="burger" id="burger" aria-label="Open navigation">☰</button>
-      <span class="mobile-brand">NULL<span>ITSM</span></span>
-      <label class="search"><span aria-hidden="true">⌕</span><input id="topSearch" type="search" placeholder="Search tickets, assets, users, or knowledge…" aria-label="Search"></label>
-      <div class="icons">
-        <button class="icon-btn" aria-label="Notifications" data-toast="No new notifications"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
-        <button class="icon-btn" aria-label="Help" data-toast="Help centre — Service Desk documentation"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></button>
-        <button class="icon-btn" aria-label="Apps" data-toast="NULL apps — Tickets is the open module"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
-        <div class="usermenu">
-          <button class="userchip" id="userChip" aria-haspopup="true" aria-expanded="false" aria-controls="userMenu">
-            <span class="avatar" id="sessionAvatar" data-session-avatar>JM</span>
-            <span class="meta"><span class="nm" id="sessionUser" data-session-user>Jamiah McQuiller</span><br><span class="rl">IT Operations</span></span>
-            <span aria-hidden="true">▾</span>
-          </button>
-          <div class="usermenu-panel" id="userMenu" hidden>
-            <div class="um-head"><span class="nm" id="sessionUserMenu" data-session-user>Jamiah McQuiller</span><span class="rl">IT Operations · Signed in</span></div>
-            <button type="button" class="um-signout" data-sign-out>Sign Out</button>
-          </div>
-        </div>
-      </div>
+    <header class="topbar">
+  <button type="button" id="menuBtn" class="menu-btn" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+  <div class="mobile-brand">NULL ITSM</div>
+<label class="search"><span aria-hidden="true">⌕</span><input id="topSearch" type="search" placeholder="Search tickets, assets, users, or knowledge…" aria-label="Search"></label>
+  <div class="top-icons">
+    <button type="button" class="icon-btn" id="bellBtn" aria-label="Notifications" data-toast="No new notifications"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="notif-badge" id="notifBadge" hidden>0</span></button>
+    <button type="button" class="icon-btn" id="helpBtn" aria-label="Help" data-toast="Help centre — Service Desk documentation"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></button>
+    <button type="button" class="icon-btn" id="appsBtn" aria-label="Apps"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></button>
+  </div>
+  <div class="user-wrap">
+    <button type="button" class="user-chip" id="userChip" aria-haspopup="true" aria-expanded="false"><span class="avatar" id="sessionAvatar" data-session-avatar>JM</span><span class="who"><b id="sessionUserName" data-session-user>Jamiah McQuiller</b><span class="role">IT Operations</span></span></button>
+    <div class="user-menu" id="userMenu" hidden>
+      <div class="um-head"><b id="sessionUserNameMenu" data-session-user>Jamiah McQuiller</b><span>IT Operations</span></div>
+      <p class="um-note">Signed in to NULL ITSM. Demonstration session — real authentication requires a secure backend.</p>
+      <button type="button" class="signout-btn" id="signOutBtn" data-sign-out>Sign out</button>
     </div>
+  </div>
+</header>
+<script>
+/* NULL ITSM canonical top bar — session-derived avatar/name, chip menu, notification badge hook.
+   Runs once per page; guarded so a second copy never double-wires the chip. */
+(function(){
+  if(window.__nullTopbarWired) return; window.__nullTopbarWired = true;
+  function initials(name){
+    if(!name) return 'JM';
+    var parts = String(name).trim().split(/\s+/).filter(Boolean);
+    return parts.map(function(w){ return w.charAt(0); }).join('').slice(0,2).toUpperCase();
+  }
+  try{
+    var raw = sessionStorage.getItem('null-itsm-session');
+    var sess = raw ? JSON.parse(raw) : null;
+    var user = (sess && sess.user) ? String(sess.user) : null;
+    if(user){
+      document.querySelectorAll('[data-session-user]').forEach(function(el){ el.textContent = user; });
+      var init = initials(user);
+      document.querySelectorAll('[data-session-avatar]').forEach(function(el){ el.textContent = init; });
+    }
+  }catch(e){}
+  var chip = document.getElementById('userChip'), menu = document.getElementById('userMenu');
+  if(chip && menu){
+    chip.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = menu.hidden;
+      menu.hidden = !open;
+      chip.setAttribute('aria-expanded', String(open));
+    });
+    document.addEventListener('click', function(e){
+      if(!menu.hidden && !menu.contains(e.target) && !chip.contains(e.target)){
+        menu.hidden = true; chip.setAttribute('aria-expanded','false');
+      }
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && !menu.hidden){
+        menu.hidden = true; chip.setAttribute('aria-expanded','false');
+      }
+    });
+  }
+  /* Notification badge hook — pages with real notifications call
+     window.NULLTopbar.setNotifCount(n); badge stays hidden at 0. */
+  window.NULLTopbar = window.NULLTopbar || {};
+  window.NULLTopbar.setNotifCount = function(n){
+    var b = document.getElementById('notifBadge');
+    if(!b) return;
+    n = Math.max(0, parseInt(n, 10) || 0);
+    b.textContent = String(n);
+    b.hidden = n === 0;
+  };
+})();
+</script>
+<script>
+/* Sidebar toggle — same wiring as Tickets; this page previously had no menu-button handler. */
+(function(){ var b=document.getElementById('menuBtn'), s=document.getElementById('sidebar'); if(b&&s){ b.addEventListener('click', function(){ var open=s.classList.toggle('open'); b.setAttribute('aria-expanded', String(open)); }); } })();
+</script>
+
+
+
 
 <main class="content">
   <div class="page-head">
@@ -590,7 +686,7 @@ table.u-table td:nth-child(2),table.u-table td:nth-child(3){white-space:nowrap}
       roles: roles, dept: u.dept,
       team: u.team || TEAM_BY_ROLE[roles[0]] || "General",
       access: u.access, status: u.status || "Active",
-      lastLogin: u.lastLogin || null,
+      lastLogin: u.status==="Invited" ? null : (u.lastLogin || null),
       lastReview: u.lastReview || null,
       overrides: u.overrides || {}
     };
@@ -916,7 +1012,7 @@ table.u-table td:nth-child(2),table.u-table td:nth-child(3){white-space:nowrap}
     closeModal();
     var wrap=document.createElement("div");
     wrap.className="modal-wrap";
-    wrap.style.display="flex";
+    wrap.style.display="grid";
     wrap.innerHTML='<div class="modal'+(wide?" wide":"")+'" role="dialog" aria-modal="true">'+html+'</div>';
     document.body.appendChild(wrap);
     modalWrap=wrap;
@@ -1194,7 +1290,7 @@ table.u-table td:nth-child(2),table.u-table td:nth-child(3){white-space:nowrap}
     if(!isOrgAdmin()){ denyOrgAdmin(); return; }
     var f=readUserForm();
     if(!f) return;
-    users.push({ name:f.name, username:f.username, email:f.email, roles:[f.role], dept:f.dept, team:f.team, access:ACCESS_BY_ROLE[f.role]||"Least Privilege", status:status, lastLogin:new Date().toISOString(), lastReview:null, overrides:{} });
+    users.push({ name:f.name, username:f.username, email:f.email, roles:[f.role], dept:f.dept, team:f.team, access:ACCESS_BY_ROLE[f.role]||"Least Privilege", status:status, lastLogin:null, lastReview:null, overrides:{} });
     users.sort(function(a,b){ return a.name.toLowerCase().localeCompare(b.name.toLowerCase()); });
     save();
     if(status==="Invited") logAudit("User invited", f.username, f.name+" ("+f.email+") invited with role "+f.role+" — invite recorded in this browser only, no email sent.");
@@ -1289,7 +1385,7 @@ table.u-table td:nth-child(2),table.u-table td:nth-child(3){white-space:nowrap}
     var note=document.createElement('p');
     note.className='um-note';
     note.textContent=isPlatform?'Platform demo view — you are viewing as a NULL platform administrator. Organization data is unchanged.':'Organization demo view — Platform Administration is hidden. Switch below to preview the platform-admin view.';
-    menu.appendChild(note);
+    var ex=menu.querySelector('.um-note');if(ex){ex.textContent=note.textContent;}else{menu.appendChild(note);}
     var b=document.createElement('button');
     b.type='button'; b.className='um-switch'; b.setAttribute('role','menuitem');
     b.textContent=isPlatform?'Return to Organization view (demo)':'View as Platform Admin (demo)';
