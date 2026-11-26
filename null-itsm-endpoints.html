@@ -80,7 +80,7 @@ main{max-width:1440px;margin:0 auto;padding:16px 12px 28px}
 @media(min-width:768px){main{padding:20px}}
 /* page header — matches board PageHeader */
 .pageheader{position:relative;margin-bottom:20px;overflow:hidden;border-bottom:2px solid var(--border-strong);padding-bottom:16px}
-.pageheader img.banner{pointer-events:none;position:absolute;top:0;right:0;height:100%;width:46%;object-fit:cover;opacity:.9;-webkit-mask-image:linear-gradient(to left,black 55%,transparent);mask-image:linear-gradient(to left,black 55%,transparent);display:none}
+.pageheader img.banner{pointer-events:none;position:absolute;top:0;right:-28px;height:100%;width:min(430px,52%);object-fit:cover;opacity:.92;filter:grayscale(1) contrast(1.08);clip-path:polygon(14% 0,100% 0,100% 100%,0 100%);-webkit-mask-image:linear-gradient(to left,black 55%,transparent);mask-image:linear-gradient(to left,black 55%,transparent);display:none}
 @media(min-width:768px){.pageheader img.banner{display:block}}
 .pageheader .rel{position:relative}
 .pageheader h1{font-family:var(--font-display);margin:4px 0 0;font-size:40px;line-height:1;font-weight:900;letter-spacing:-.02em}
@@ -181,6 +181,7 @@ table.itsm tbody tr:hover{background:rgba(23,20,16,.035)}
 tr[data-device],.yd-card{cursor:context-menu}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
+<style>[data-platform-only]{display:none!important}</style>
 </head>
 <body data-requires-auth>
 <div class="layout">
@@ -321,7 +322,10 @@ var ICONS={
  problems:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
  analytics:'<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
  settings:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
- users:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'
+ users:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+ shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+ building:'<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/>',
+ filetext:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>'
 };
 var CHEVRON='<span class="navchev" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>';
 var NAV=[
@@ -331,7 +335,8 @@ var NAV=[
  {type:"item",id:"changes",label:"Change Management"},
  {type:"item",id:"problems",label:"Problem Management"},
  {type:"item",id:"analytics",label:"Reports & Analytics"},
- {type:"group",id:"settings",label:"Admin",children:[["users","Users & Roles"],["settings","Platform Settings"]]}
+ {type:"group",id:"admin",label:"Admin",icon:"settings",children:[["settings","Platform Settings","settings"]]},
+ {type:"group",id:"platformadmin",label:"Platform Administration",icon:"settings",platformOnly:true,children:[["platformusers","Platform Admin Users","users"],["platformroles","Platform Roles & Permissions","shield"],["tenants","Tenant Management","building"],["audit","Platform Audit Logs","filetext"],["settings","Platform Settings","settings"]]}
 ];
 var collapsedGroups={};
 /* Standalone screens this sidebar links to (relative filenames, as deployed together).
@@ -349,26 +354,31 @@ var SCREEN_LINKS={
  changes:"null-itsm-changes.html",
  problems:"null-itsm-problem-management.html",
  analytics:"null-itsm-analytics.html",
- users:"null-itsm-users-roles.html",
+ platformusers:"null-itsm-platform-admin-users.html",
+ platformroles:"null-itsm-platform-admin-users.html?tab=roles",
+ tenants:"null-itsm-tenant-management.html",
+ audit:"null-itsm-platform-audit-logs.html",
  settings:"null-itsm-platform-settings.html"
 };
-function navLink(id,label,active){
+function navLink(id,label,active,icon){
   var isA=id===active;
   var href=SCREEN_LINKS[id];
+  var ic=ICONS[icon]||ICONS[id]||ICONS.home;
   if(href){
-    return '<a class="navbtn'+(isA?' active':'')+'" href="'+href+'"'+(isA?' aria-current="page"':'')+'>'+navIcon(ICONS[id]||ICONS.home)+'<span>'+label+'</span></a>';
+    return '<a class="navbtn'+(isA?' active':'')+'" href="'+href+'"'+(isA?' aria-current="page"':'')+'>'+navIcon(ic)+'<span>'+label+'</span></a>';
   }
-  return '<a class="navbtn'+(isA?' active':'')+'" href="#" data-nav="'+id+'"'+(isA?' aria-current="page"':'')+'>'+navIcon(ICONS[id]||ICONS.home)+'<span>'+label+'</span></a>';
+  return '<a class="navbtn'+(isA?' active':'')+'" href="#" data-nav="'+id+'"'+(isA?' aria-current="page"':'')+'>'+navIcon(ic)+'<span>'+label+'</span></a>';
 }
 function renderNav(el,active,suffix){
   var h="";
   NAV.forEach(function(n){
     if(n.type==="group"){
       var open=!collapsedGroups[n.id];
-      h+='<button type="button" class="navgroup-toggle" data-group="'+n.id+'" aria-expanded="'+(open?"true":"false")+'" aria-controls="navch-'+n.id+'-'+suffix+'">'+navIcon(ICONS[n.id]||"")+'<span>'+n.label+'</span>'+CHEVRON+'</button>';
+      var po=n.platformOnly?' data-platform-only':'';
+      h+='<button type="button" class="navgroup-toggle"'+po+' data-group="'+n.id+'" aria-expanded="'+(open?"true":"false")+'" aria-controls="navch-'+n.id+'-'+suffix+'">'+navIcon(ICONS[n.icon]||ICONS[n.id]||"")+'<span>'+n.label+'</span>'+CHEVRON+'</button>';
       if(open){
-        h+='<div class="navchildren" id="navch-'+n.id+'-'+suffix+'">';
-        n.children.forEach(function(c){ h+=navLink(c[0],c[1],active); });
+        h+='<div class="navchildren"'+po+' id="navch-'+n.id+'-'+suffix+'">';
+        n.children.forEach(function(c){ h+=navLink(c[0],c[1],active,c[2]); });
         h+='</div>';
       }
     } else {
@@ -723,5 +733,6 @@ renderKpis(); syncNav(); renderTable();
 </script>
 <script src="data:application/javascript;base64,LyogTlVMTCBJVFNNIOKAlCBzaGFyZWQgZGVtb25zdHJhdGlvbiBhdXRoZW50aWNhdGlvbiAoc3RhdGljIGRlbW8gb25seSkuCiAgIFJlYWwgYXV0aGVudGljYXRpb24gcmVxdWlyZXMgYSBzZWN1cmUgYmFja2VuZDsgdGhpcyBzZXNzaW9uU3RvcmFnZQogICBjaGVjayBpcyBhIGZyb250LWVuZCBkZW1vbnN0cmF0aW9uIGdhdGUgZm9yIHRoZSBHaXRIdWIgUGFnZXMgYnVpbGQuICovCihmdW5jdGlvbiAoKSB7CiAgdmFyIFNFU1NJT05fS0VZID0gIm51bGwtaXRzbS1zZXNzaW9uIjsKICB2YXIgU0lHTl9JTl9QQUdFID0gIm51bGwtaXRzbS1zaWduLWluLmh0bWwiOwoKICBmdW5jdGlvbiBnZXRTZXNzaW9uKCkgewogICAgdHJ5IHsKICAgICAgdmFyIHJhdyA9IHNlc3Npb25TdG9yYWdlLmdldEl0ZW0oU0VTU0lPTl9LRVkpOwogICAgICByZXR1cm4gcmF3ID8gSlNPTi5wYXJzZShyYXcpIDogbnVsbDsKICAgIH0gY2F0Y2ggKGUpIHsKICAgICAgcmV0dXJuIG51bGw7CiAgICB9CiAgfQoKICBmdW5jdGlvbiBpc0F1dGhlbnRpY2F0ZWQoKSB7CiAgICB2YXIgcyA9IGdldFNlc3Npb24oKTsKICAgIHJldHVybiAhIShzICYmIHMudXNlcik7CiAgfQoKICBmdW5jdGlvbiByZXF1aXJlQXV0aCgpIHsKICAgIGlmICghaXNBdXRoZW50aWNhdGVkKCkpIHsKICAgICAgd2luZG93LmxvY2F0aW9uLnJlcGxhY2UoU0lHTl9JTl9QQUdFKTsKICAgICAgcmV0dXJuIGZhbHNlOwogICAgfQogICAgcmV0dXJuIHRydWU7CiAgfQoKICBmdW5jdGlvbiBzaWduT3V0KCkgewogICAgdHJ5IHsgc2Vzc2lvblN0b3JhZ2UucmVtb3ZlSXRlbShTRVNTSU9OX0tFWSk7IH0gY2F0Y2ggKGUpIHt9CiAgICB3aW5kb3cubG9jYXRpb24ucmVwbGFjZShTSUdOX0lOX1BBR0UpOwogIH0KCiAgZnVuY3Rpb24gYXBwbHlTZXNzaW9uVXNlcigpIHsKICAgIHZhciBzID0gZ2V0U2Vzc2lvbigpOwogICAgaWYgKCFzIHx8ICFzLnVzZXIpIHJldHVybjsKICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoIltkYXRhLXVzZXItbmFtZV0iKS5mb3JFYWNoKGZ1bmN0aW9uIChlbCkgewogICAgICBlbC50ZXh0Q29udGVudCA9IHMudXNlcjsKICAgIH0pOwogIH0KCiAgZnVuY3Rpb24gd2lyZVNpZ25PdXQoKSB7CiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJbZGF0YS1zaWduLW91dF0iKS5mb3JFYWNoKGZ1bmN0aW9uIChlbCkgewogICAgICBlbC5hZGRFdmVudExpc3RlbmVyKCJjbGljayIsIGZ1bmN0aW9uIChlKSB7CiAgICAgICAgZS5wcmV2ZW50RGVmYXVsdCgpOwogICAgICAgIHNpZ25PdXQoKTsKICAgICAgfSk7CiAgICB9KTsKICB9CgogIGZ1bmN0aW9uIGd1YXJkKCkgewogICAgaWYgKGRvY3VtZW50LmJvZHkgJiYgZG9jdW1lbnQuYm9keS5oYXNBdHRyaWJ1dGUoImRhdGEtcmVxdWlyZXMtYXV0aCIpKSB7CiAgICAgIGlmICghcmVxdWlyZUF1dGgoKSkgcmV0dXJuOwogICAgfQogICAgYXBwbHlTZXNzaW9uVXNlcigpOwogICAgd2lyZVNpZ25PdXQoKTsKICB9CgogIC8qIEJhY2svZm9yd2FyZCBjYWNoZTogcmUtY2hlY2sgdGhlIHNlc3Npb24gd2hlbiB0aGUgcGFnZSBpcyByZXN0b3JlZAogICAgIGZyb20gYmZjYWNoZSBzbyBwcm90ZWN0ZWQgY29udGVudCBpcyBub3QgZXhwb3NlZCBhZnRlciBzaWduLW91dC4gKi8KICB3aW5kb3cuYWRkRXZlbnRMaXN0ZW5lcigicGFnZXNob3ciLCBmdW5jdGlvbiAoZSkgewogICAgaWYgKGUucGVyc2lzdGVkICYmIGRvY3VtZW50LmJvZHkgJiYgZG9jdW1lbnQuYm9keS5oYXNBdHRyaWJ1dGUoImRhdGEtcmVxdWlyZXMtYXV0aCIpKSB7CiAgICAgIHJlcXVpcmVBdXRoKCk7CiAgICB9CiAgfSk7CgogIGlmIChkb2N1bWVudC5yZWFkeVN0YXRlID09PSAibG9hZGluZyIpIHsKICAgIGRvY3VtZW50LmFkZEV2ZW50TGlzdGVuZXIoIkRPTUNvbnRlbnRMb2FkZWQiLCBndWFyZCk7CiAgfSBlbHNlIHsKICAgIGd1YXJkKCk7CiAgfQoKICB3aW5kb3cuTnVsbEF1dGggPSB7CiAgICBnZXRTZXNzaW9uOiBnZXRTZXNzaW9uLAogICAgaXNBdXRoZW50aWNhdGVkOiBpc0F1dGhlbnRpY2F0ZWQsCiAgICByZXF1aXJlQXV0aDogcmVxdWlyZUF1dGgsCiAgICBzaWduT3V0OiBzaWduT3V0CiAgfTsKfSkoKTsK"></script>
 <script src="data:application/javascript;base64,LyogTlVMTCBJVFNNIOKAlCBzaGFyZWQgbmF2aWdhdGlvbiBoZWxwZXJzIGZvciB0aGUgY29ubmVjdGVkIGFwcGxpY2F0aW9uLgogICBNb2R1bGUgcGFnZXMgbGluayB0byBlYWNoIG90aGVyIHdpdGggcGxhaW4gcmVsYXRpdmUgaHJlZnMgKHNlZSBlYWNoCiAgIHBhZ2UncyBTQ1JFRU5fTElOS1MgbWFwKTsgdGhpcyBzY3JpcHQga2VlcHMgdGhlIGFjdGl2ZSBtb2R1bGUKICAgaGlnaGxpZ2h0ZWQgYW5kIG1ha2VzIHN1cmUgc2lnbi1vdXQgY29udHJvbHMgc3RheSB3aXJlZCBldmVuIGlmIGEKICAgcGFnZSByZW5kZXJzIGl0cyBuYXZpZ2F0aW9uIGFmdGVyIGxvYWQuICovCihmdW5jdGlvbiAoKSB7CiAgdmFyIE1PRFVMRV9GSUxFUyA9IHsKICAgICJudWxsLWl0c20tY29tbWFuZC1jZW50ZXIuaHRtbCI6ICJob21lIiwKICAgICJudWxsLWl0c20tdGlja2V0cy5odG1sIjogInRpY2tldHMiLAogICAgIm51bGwtaXRzbS1lbmRwb2ludHMuaHRtbCI6ICJlbmRwb2ludHMiLAogICAgIm51bGwtaXRzbS1jaGFuZ2VzLmh0bWwiOiAiY2hhbmdlcyIsCiAgICAibnVsbC1pdHNtLWNtZGIuaHRtbCI6ICJjbWRiIiwKICAgICJudWxsLWl0c20tYW5hbHl0aWNzLmh0bWwiOiAiYW5hbHl0aWNzIiwKICAgICJudWxsLWl0c20tcGxhdGZvcm0tc2V0dGluZ3MuaHRtbCI6ICJzZXR0aW5ncyIKICB9OwoKICBmdW5jdGlvbiBjdXJyZW50RmlsZSgpIHsKICAgIHZhciBwYXRoID0gd2luZG93LmxvY2F0aW9uLnBhdGhuYW1lIHx8ICIiOwogICAgdmFyIHBhcnRzID0gcGF0aC5zcGxpdCgiLyIpOwogICAgcmV0dXJuIHBhcnRzW3BhcnRzLmxlbmd0aCAtIDFdIHx8ICIiOwogIH0KCiAgZnVuY3Rpb24gaGlnaGxpZ2h0QWN0aXZlKCkgewogICAgdmFyIGFjdGl2ZSA9IE1PRFVMRV9GSUxFU1tjdXJyZW50RmlsZSgpXTsKICAgIGlmICghYWN0aXZlKSByZXR1cm47CiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJhLm5hdmJ0bltocmVmXSIpLmZvckVhY2goZnVuY3Rpb24gKGEpIHsKICAgICAgdmFyIGhyZWYgPSBhLmdldEF0dHJpYnV0ZSgiaHJlZiIpIHx8ICIiOwogICAgICB2YXIgZmlsZSA9IGhyZWYuc3BsaXQoIi8iKS5wb3AoKTsKICAgICAgaWYgKE1PRFVMRV9GSUxFU1tmaWxlXSA9PT0gYWN0aXZlKSB7CiAgICAgICAgYS5jbGFzc0xpc3QuYWRkKCJhY3RpdmUiKTsKICAgICAgICBhLnNldEF0dHJpYnV0ZSgiYXJpYS1jdXJyZW50IiwgInBhZ2UiKTsKICAgICAgfQogICAgfSk7CiAgfQoKICBmdW5jdGlvbiB3aXJlU2lnbk91dEZhbGxiYWNrKCkgewogICAgaWYgKHdpbmRvdy5OdWxsQXV0aCkgcmV0dXJuOyAvKiBhdXRoLmpzIGFscmVhZHkgd2lyZXMgW2RhdGEtc2lnbi1vdXRdICovCiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJbZGF0YS1zaWduLW91dF0iKS5mb3JFYWNoKGZ1bmN0aW9uIChlbCkgewogICAgICBlbC5hZGRFdmVudExpc3RlbmVyKCJjbGljayIsIGZ1bmN0aW9uIChlKSB7CiAgICAgICAgZS5wcmV2ZW50RGVmYXVsdCgpOwogICAgICAgIHRyeSB7IHNlc3Npb25TdG9yYWdlLnJlbW92ZUl0ZW0oIm51bGwtaXRzbS1zZXNzaW9uIik7IH0gY2F0Y2ggKGVycikge30KICAgICAgICB3aW5kb3cubG9jYXRpb24ucmVwbGFjZSgibnVsbC1pdHNtLXNpZ24taW4uaHRtbCIpOwogICAgICB9KTsKICAgIH0pOwogIH0KCiAgZnVuY3Rpb24gaW5pdCgpIHsKICAgIGhpZ2hsaWdodEFjdGl2ZSgpOwogICAgd2lyZVNpZ25PdXRGYWxsYmFjaygpOwogIH0KCiAgaWYgKGRvY3VtZW50LnJlYWR5U3RhdGUgPT09ICJsb2FkaW5nIikgewogICAgZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcigiRE9NQ29udGVudExvYWRlZCIsIGluaXQpOwogIH0gZWxzZSB7CiAgICBpbml0KCk7CiAgfQp9KSgpOwo="></script>
+<script>(function(){var KEY='null-itsm-platform-mode';var isPlatform=false;try{isPlatform=sessionStorage.getItem(KEY)==='1';}catch(e){}if(isPlatform){document.querySelectorAll('[data-platform-only]').forEach(function(el){el.removeAttribute('data-platform-only');});document.body.classList.add('platform-mode');}else{document.querySelectorAll('[data-platform-only]').forEach(function(el){el.remove();});}var menu=document.getElementById('userMenu');if(menu){var note=document.createElement('p');note.className='um-note';note.textContent=isPlatform?'Platform demo view — you are viewing as a NULL platform administrator. Organization data is unchanged.':'Organization demo view — Platform Administration is hidden. Switch below to preview the platform-admin view.';menu.appendChild(note);var b=document.createElement('button');b.type='button';b.className='um-switch';b.setAttribute('role','menuitem');b.textContent=isPlatform?'Return to Organization view (demo)':'View as Platform Admin (demo)';b.addEventListener('click',function(){try{if(isPlatform)sessionStorage.removeItem(KEY);else sessionStorage.setItem(KEY,'1');}catch(e){}location.reload();});menu.appendChild(b);var st=document.createElement('style');st.textContent='.um-switch{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid rgba(0,0,0,.08);padding:10px 14px;font:inherit;font-size:13px;font-weight:600;color:inherit;cursor:pointer}.um-switch:hover{background:rgba(0,0,0,.06)}';document.head.appendChild(st);}if(document.body.hasAttribute('data-platform-page')){var main=document.getElementById('pageMain');var denied=document.getElementById('accessDenied');if(isPlatform){if(main)main.style.display='';}else{if(main)main.style.display='none';if(denied)denied.hidden=false;}}})();</script>
 </body>
 </html>
