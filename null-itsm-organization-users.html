@@ -213,9 +213,9 @@
 .u-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .u-tools input[type="search"]{height:34px;border:1px solid var(--line2);border-radius:7px;padding:0 10px;font:inherit;font-size:13px;background:#fff;width:170px}
 .u-tools select{height:34px;border:1px solid var(--line2);border-radius:7px;padding:0 8px;font:inherit;font-size:13px;background:#fff}
-table.u-table{width:100%;border-collapse:collapse;font-size:13.5px}
-table.u-table th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);text-align:left;padding:8px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
-table.u-table td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.u-table{width:100%;border-collapse:collapse;font-size:13.5px;display:block;overflow-x:auto}
+table.u-table th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.u-table td{padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
 table.u-table tr:last-child td{border-bottom:0}
 table.u-table tbody tr:hover{background:var(--paper2)}
 table.u-table td:nth-child(2),table.u-table td:nth-child(3){white-space:nowrap}
@@ -265,7 +265,6 @@ table.u-table td:nth-child(2),table.u-table td:nth-child(3){white-space:nowrap}
   .u-grid>div{min-width:0}
   .ph-photo{display:none}
   .u-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
-  table.u-table{display:block;overflow-x:auto}
 }
 @media (max-width:520px){ .u-kpis{grid-template-columns:1fr} }
 
@@ -412,7 +411,7 @@ table.u-table td:nth-child(2),table.u-table td:nth-child(3){white-space:nowrap}
           <div class="u-showing" id="showing">Showing 1&ndash;5 of 68</div>
           <div class="u-pager" id="pager"></div>
         </div>
-        <div class="d-note">Demo data: 68 sample users stored in this browser. Changes you make here are saved in this browser only &mdash; there is no server behind this static site.</div>
+        <div class="d-note">Demo data: <span id="demoCount">68</span> sample users stored in this browser. Changes you make here are saved in this browser only &mdash; there is no server behind this static site.</div>
       </section>
     </div>
 
@@ -693,6 +692,7 @@ table.u-table td:nth-child(2),table.u-table td:nth-child(3){white-space:nowrap}
   }
   function renderKPIs(){
     $("kpiUsers").textContent = users.length;
+    if($("demoCount")) $("demoCount").textContent = users.length;
     $("kpiActive").textContent = users.filter(function(u){ return u.status==="Active"; }).length;
     $("kpiTech").textContent = users.filter(isTech).length;
     $("kpiSuspended").textContent = users.filter(function(u){ return u.status==="Suspended"; }).length;
