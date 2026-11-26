@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="color-scheme" content="light dark" />
+<meta name="color-scheme" content="light" />
 <link rel="icon" href="data:," />
 <title>NULL ITSM — Platform Settings</title>
 <style>
@@ -30,15 +30,6 @@
     --green:#2E7D4F; --amber:#9A6B14; --red:#B33A2B;
     --shadow:0 1px 0 rgba(23,21,18,.06), 0 10px 28px rgba(23,21,18,.07);
     color-scheme:light;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --paper:#1B1A17; --paper-2:#22211D; --card:#26241F; --card-2:#2A2823;
-      --ink:#F0EBDD; --ink-2:#D8D2C2; --muted:#A49E8E; --line:#3D3A32; --line-2:#4A463C;
-      --purple-soft:#332C52; --purple-ink:#C9BFF2;
-      --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.35);
-      color-scheme:dark;
-    }
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
@@ -95,7 +86,6 @@
   .icon-btn .dot{position:absolute;top:8px;right:9px;width:7px;height:7px;border-radius:99px;background:var(--purple);border:2px solid var(--paper)}
   .user-chip{display:flex;align-items:center;gap:10px;padding:5px 6px 5px 5px;border-radius:999px;border:1px solid var(--line);background:var(--card);cursor:pointer;text-align:left}
   .avatar{width:34px;height:34px;border-radius:99px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-weight:800;font-size:12px;letter-spacing:.04em;flex:none}
-  @media (prefers-color-scheme: dark){.avatar{background:#F0EBDD;color:#171512}}
   .user-chip .who{line-height:1.15}
   .user-chip .who b{display:block;font-size:12.5px}
   .user-chip .who span{font-size:11px;color:var(--muted)}
@@ -133,7 +123,6 @@
   .s-card h3{margin:0 0 5px;font-size:14.5px;font-weight:700;letter-spacing:-.01em}
   .s-card p{margin:0;font-size:12.5px;line-height:1.5;color:var(--muted)}
   .s-card .go{margin-top:12px;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--purple-deep);display:flex;align-items:center;gap:6px}
-  @media (prefers-color-scheme: dark){.s-card .go{color:#B7A9F0}}
   .s-card[hidden]{display:none}
   .no-match{display:none;border:1px dashed var(--line-2);border-radius:10px;padding:18px;font-size:13.5px;color:var(--muted);text-align:center}
   .no-match.show{display:block}
@@ -153,7 +142,6 @@
   td b{font-weight:700}
   .tag{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700}
   .tag.p1{background:#F9E3DE;color:var(--red)} .tag.p2{background:#F7ECD2;color:var(--amber)} .tag.ok{background:#DFF0E6;color:var(--green)}
-  @media (prefers-color-scheme: dark){.tag.p1{background:#4A241E}.tag.p2{background:#4A3A14}.tag.ok{background:#1E3A2A}}
   select.sel{font:inherit;font-size:12.5px;border:1px solid var(--line);background:var(--card-2);color:var(--ink);border-radius:7px;padding:6px 8px;min-height:36px}
   /* toggles */
   .toggle-row{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--line)}
@@ -168,7 +156,6 @@
   .switch input:checked + .track{background:var(--purple-deep)}
   .switch input:checked + .track::after{transform:translateX(20px)}
   .switch input:focus-visible + .track{outline:2px solid var(--purple-deep);outline-offset:2px}
-  @media (prefers-color-scheme: dark){.switch .track{background:#4A463C}}
 
   .full{margin-top:12px}
   .audit td:first-child{white-space:nowrap}
@@ -185,7 +172,6 @@
   }
   .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,16px);background:var(--ink);color:var(--paper);padding:11px 16px;border-radius:999px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:.22s;z-index:80;box-shadow:0 14px 34px rgba(0,0,0,.28);max-width:calc(100vw - 32px);text-align:center}
   .toast.show{opacity:1;transform:translate(-50%,0)}
-  @media (prefers-color-scheme: dark){.toast{background:#F0EBDD;color:#171512}}
   .user-wrap{position:relative}
   .user-menu{position:absolute;right:0;top:calc(100% + 8px);background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);min-width:232px;padding:8px;display:none;z-index:70;text-align:left}
   .user-menu.open{display:block}
@@ -197,6 +183,7 @@
   .signout-btn:hover{background:var(--paper-2)}
   @media (prefers-reduced-motion: reduce){*{transition:none !important}}
 </style>
+<style>[data-platform-only]{display:none!important}</style>
 </head>
 <body data-requires-auth>
 <div class="app">
@@ -234,7 +221,16 @@
       <div class="nav-group">
         <button class="group-toggle" aria-expanded="true"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v3M12 18.2v3M2.8 12h3M18.2 12h3M5.5 5.5l2.1 2.1M16.4 16.4l2.1 2.1M18.5 5.5l-2.1 2.1M7.6 16.4l-2.1 2.1"/></svg></span> Admin <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></button>
         <div class="sub">
-          <a href="null-itsm-users-roles.html">Users &amp; Roles</a>
+          <a href="null-itsm-platform-settings.html">Platform Settings</a>
+        </div>
+      </div>
+      <div class="nav-group" data-platform-only>
+        <button class="group-toggle" aria-expanded="true"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v3M12 18.2v3M2.8 12h3M18.2 12h3M5.5 5.5l2.1 2.1M16.4 16.4l2.1 2.1M18.5 5.5l-2.1 2.1M7.6 16.4l-2.1 2.1"/></svg></span> Platform Administration <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></button>
+        <div class="sub">
+          <a href="null-itsm-platform-admin-users.html">Platform Admin Users</a>
+          <a href="null-itsm-platform-admin-users.html?tab=roles">Platform Roles &amp; Permissions</a>
+          <a href="null-itsm-tenant-management.html">Tenant Management</a>
+          <a href="null-itsm-platform-audit-logs.html">Platform Audit Logs</a>
           <a href="null-itsm-platform-settings.html" class="active" aria-current="page">Platform Settings</a>
         </div>
       </div>
@@ -423,6 +419,7 @@
   var cards=[].slice.call(document.querySelectorAll('.s-card'));
   cards.forEach(function(card){
     card.addEventListener('click',function(){
+      if(card.getAttribute('data-area')==='Users & Roles'){ window.location.href='null-itsm-organization-users.html'; return; }
       cards.forEach(function(c){c.classList.remove('selected')});
       card.classList.add('selected');
       var target=document.getElementById(card.getAttribute('data-target'));
@@ -475,5 +472,6 @@
 </script>
 <script src="data:application/javascript;base64,LyogTlVMTCBJVFNNIOKAlCBzaGFyZWQgZGVtb25zdHJhdGlvbiBhdXRoZW50aWNhdGlvbiAoanMvYXV0aC5qcykKICAgRGVtb25zdHJhdGlvbiBvbmx5OiB1c2VzIHNlc3Npb25TdG9yYWdlLiBSZWFsIGF1dGhlbnRpY2F0aW9uIHJlcXVpcmVzIGEgc2VjdXJlIGJhY2tlbmQuCiAgIFNlc3Npb24ga2V5OiAnbnVsbC1pdHNtLXNlc3Npb24nIOKAlCB2YWx1ZSBpcyBKU09OLCBlLmcuIHsidXNlciI6IkphbWlhaCBNY1F1aWxsZXIifQogICBQYWdlcyB0aGF0IHJlcXVpcmUgYXV0aCBjYXJyeSBkYXRhLXJlcXVpcmVzLWF1dGggb24gPGJvZHk+LgoqLwooZnVuY3Rpb24gKCkgewogICd1c2Ugc3RyaWN0JzsKICB2YXIgU0VTU0lPTl9LRVkgPSAnbnVsbC1pdHNtLXNlc3Npb24nOwogIHZhciBTSUdOX0lOX1BBR0UgPSAnbnVsbC1pdHNtLXNpZ24taW4uaHRtbCc7CiAgdmFyIENPTU1BTkRfQ0VOVEVSX1BBR0UgPSAnbnVsbC1pdHNtLWNvbW1hbmQtY2VudGVyLmh0bWwnOwoKICBmdW5jdGlvbiBnZXRTZXNzaW9uKCkgewogICAgdHJ5IHsKICAgICAgdmFyIHJhdyA9IHNlc3Npb25TdG9yYWdlLmdldEl0ZW0oU0VTU0lPTl9LRVkpOwogICAgICBpZiAoIXJhdykgcmV0dXJuIG51bGw7CiAgICAgIHZhciBwYXJzZWQgPSBKU09OLnBhcnNlKHJhdyk7CiAgICAgIGlmICghcGFyc2VkIHx8ICEocGFyc2VkLnVzZXIgfHwgcGFyc2VkLnVzZXJuYW1lIHx8IHBhcnNlZC5uYW1lKSkgcmV0dXJuIG51bGw7CiAgICAgIHJldHVybiBwYXJzZWQ7CiAgICB9IGNhdGNoIChlKSB7IHJldHVybiBudWxsOyB9CiAgfQogIGZ1bmN0aW9uIGlzQXV0aGVudGljYXRlZCgpIHsgcmV0dXJuICEhZ2V0U2Vzc2lvbigpOyB9CiAgZnVuY3Rpb24gcmVxdWlyZXNBdXRoKCkgewogICAgcmV0dXJuIGRvY3VtZW50LmJvZHkgJiYgZG9jdW1lbnQuYm9keS5oYXNBdHRyaWJ1dGUoJ2RhdGEtcmVxdWlyZXMtYXV0aCcpOwogIH0KICBmdW5jdGlvbiByZWRpcmVjdFRvU2lnbkluKCkgewogICAgLy8gVXNlIHJlcGxhY2Ugc28gYnJvd3NlciBCYWNrIGRvZXMgbm90IHJldHVybiB0byBwcm90ZWN0ZWQgY29udGVudC4KICAgIHRyeSB7IHdpbmRvdy5sb2NhdGlvbi5yZXBsYWNlKFNJR05fSU5fUEFHRSk7IH0KICAgIGNhdGNoIChlKSB7IHdpbmRvdy5sb2NhdGlvbi5ocmVmID0gU0lHTl9JTl9QQUdFOyB9CiAgfQogIGZ1bmN0aW9uIHJlcXVpcmVBdXRoKCkgewogICAgaWYgKHJlcXVpcmVzQXV0aCgpICYmICFpc0F1dGhlbnRpY2F0ZWQoKSkgeyByZWRpcmVjdFRvU2lnbkluKCk7IHJldHVybiBmYWxzZTsgfQogICAgcmV0dXJuIHRydWU7CiAgfQogIGZ1bmN0aW9uIHNpZ25PdXQoKSB7CiAgICB0cnkgewogICAgICBzZXNzaW9uU3RvcmFnZS5yZW1vdmVJdGVtKFNFU1NJT05fS0VZKTsKICAgICAgLy8gQ2xlYXIgYW55IG90aGVyIE5VTEwgZGVtbyBrZXlzIGlmIHByZXNlbnQKICAgICAgdmFyIHRvUmVtb3ZlID0gW107CiAgICAgIGZvciAodmFyIGkgPSAwOyBpIDwgc2Vzc2lvblN0b3JhZ2UubGVuZ3RoOyBpKyspIHsKICAgICAgICB2YXIgayA9IHNlc3Npb25TdG9yYWdlLmtleShpKTsKICAgICAgICBpZiAoayAmJiBrLmluZGV4T2YoJ251bGwtaXRzbScpID09PSAwKSB0b1JlbW92ZS5wdXNoKGspOwogICAgICB9CiAgICAgIHRvUmVtb3ZlLmZvckVhY2goZnVuY3Rpb24gKGspIHsgc2Vzc2lvblN0b3JhZ2UucmVtb3ZlSXRlbShrKTsgfSk7CiAgICB9IGNhdGNoIChlKSB7fQogICAgcmVkaXJlY3RUb1NpZ25JbigpOwogIH0KICBmdW5jdGlvbiBwb3B1bGF0ZVVzZXIoKSB7CiAgICB2YXIgcyA9IGdldFNlc3Npb24oKTsgaWYgKCFzKSByZXR1cm47CiAgICB2YXIgbmFtZSA9IHMudXNlciB8fCBzLnVzZXJuYW1lIHx8IHMubmFtZTsgaWYgKCFuYW1lKSByZXR1cm47CiAgICB2YXIgZWxzID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgnI3Nlc3Npb25Vc2VyTmFtZSwgI3Nlc3Npb25Vc2VyTmFtZU1lbnUsIFtkYXRhLXNlc3Npb24tdXNlcl0nKTsKICAgIGVscy5mb3JFYWNoKGZ1bmN0aW9uIChlbCkgeyBlbC50ZXh0Q29udGVudCA9IG5hbWU7IH0pOwogIH0KICBmdW5jdGlvbiB3aXJlU2lnbk91dCgpIHsKICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJ1tkYXRhLXNpZ24tb3V0XScpLmZvckVhY2goZnVuY3Rpb24gKGVsKSB7CiAgICAgIGVsLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgZnVuY3Rpb24gKGUpIHsgZS5wcmV2ZW50RGVmYXVsdCgpOyBzaWduT3V0KCk7IH0pOwogICAgfSk7CiAgfQogIGZ1bmN0aW9uIGluaXQoKSB7CiAgICBpZiAoIXJlcXVpcmVBdXRoKCkpIHJldHVybjsKICAgIHBvcHVsYXRlVXNlcigpOwogICAgd2lyZVNpZ25PdXQoKTsKICB9CiAgLy8gUnVuIGFzIGVhcmx5IGFzIHBvc3NpYmxlIChzY3JpcHQgaXMgYXQgZW5kIG9mIGJvZHksIERPTSBpcyBwYXJzZWQpLgogIGlmIChkb2N1bWVudC5yZWFkeVN0YXRlID09PSAnbG9hZGluZycpIHsKICAgIGRvY3VtZW50LmFkZEV2ZW50TGlzdGVuZXIoJ0RPTUNvbnRlbnRMb2FkZWQnLCBpbml0KTsKICB9IGVsc2UgeyBpbml0KCk7IH0KICAvLyBCYWNrL2ZvcndhcmQgY2FjaGUgcHJvdGVjdGlvbjogcmUtY2hlY2sgb24gcGFnZXNob3csIGluY2x1ZGluZyBiZmNhY2hlIHJlc3RvcmVzLgogIHdpbmRvdy5hZGRFdmVudExpc3RlbmVyKCdwYWdlc2hvdycsIGZ1bmN0aW9uIChldmVudCkgewogICAgaWYgKHJlcXVpcmVzQXV0aCgpICYmICFpc0F1dGhlbnRpY2F0ZWQoKSkgeyByZWRpcmVjdFRvU2lnbkluKCk7IHJldHVybjsgfQogICAgaWYgKGV2ZW50ICYmIGV2ZW50LnBlcnNpc3RlZCkgeyBwb3B1bGF0ZVVzZXIoKTsgfQogIH0pOwogIHdpbmRvdy5hZGRFdmVudExpc3RlbmVyKCdwb3BzdGF0ZScsIGZ1bmN0aW9uICgpIHsKICAgIGlmIChyZXF1aXJlc0F1dGgoKSAmJiAhaXNBdXRoZW50aWNhdGVkKCkpIHJlZGlyZWN0VG9TaWduSW4oKTsKICB9KTsKCiAgd2luZG93Lk51bGxBdXRoID0gewogICAgU0VTU0lPTl9LRVk6IFNFU1NJT05fS0VZLAogICAgU0lHTl9JTl9QQUdFOiBTSUdOX0lOX1BBR0UsCiAgICBDT01NQU5EX0NFTlRFUl9QQUdFOiBDT01NQU5EX0NFTlRFUl9QQUdFLAogICAgZ2V0U2Vzc2lvbjogZ2V0U2Vzc2lvbiwKICAgIGlzQXV0aGVudGljYXRlZDogaXNBdXRoZW50aWNhdGVkLAogICAgcmVxdWlyZUF1dGg6IHJlcXVpcmVBdXRoLAogICAgc2lnbk91dDogc2lnbk91dAogIH07Cn0pKCk7Cg=="></script>
 <script src="data:application/javascript;base64,LyogTlVMTCBJVFNNIOKAlCBzaGFyZWQgbmF2aWdhdGlvbiAoanMvbmF2aWdhdGlvbi5qcykKICAgQ29uc2lzdGVudCBzaWRlYmFyIC8gdG9wIG5hdmlnYXRpb24gaGVscGVycyBmb3IgYWxsIHNldmVuIGludGVybmFsIHBhZ2VzLgogICAtIEhpZ2hsaWdodHMgdGhlIGFjdGl2ZSBtb2R1bGUgYmFzZWQgb24gdGhlIGN1cnJlbnQgZmlsZW5hbWUuCiAgIC0gS2VlcHMgTlVMTCBicmFuZGluZyAvIENvbW1hbmQgQ2VudGVyIGFzIGhvbWUuCiAgIE5vIHJlZGVzaWduOiBvbmx5IGFkZHMgLmFjdGl2ZSAvIGFyaWEtY3VycmVudCB0byB0aGUgbWF0Y2hpbmcgbGluay4KKi8KKGZ1bmN0aW9uICgpIHsKICAndXNlIHN0cmljdCc7CiAgZnVuY3Rpb24gY3VycmVudEZpbGUoKSB7CiAgICB0cnkgewogICAgICB2YXIgcCA9IHdpbmRvdy5sb2NhdGlvbi5wYXRobmFtZSB8fCAnJzsKICAgICAgdmFyIHBhcnRzID0gcC5zcGxpdCgnLycpOwogICAgICB2YXIgbGFzdCA9IHBhcnRzW3BhcnRzLmxlbmd0aCAtIDFdIHx8ICcnOwogICAgICByZXR1cm4gZGVjb2RlVVJJQ29tcG9uZW50KGxhc3QudG9Mb3dlckNhc2UoKSk7CiAgICB9IGNhdGNoIChlKSB7IHJldHVybiAnJzsgfQogIH0KICBmdW5jdGlvbiBoaWdobGlnaHRBY3RpdmUoKSB7CiAgICB2YXIgZmlsZSA9IGN1cnJlbnRGaWxlKCk7CiAgICBpZiAoIWZpbGUpIHJldHVybjsKICAgIHZhciBsaW5rcyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJy5zaWRlYmFyIC5uYXYgYVtocmVmXSwgbmF2IGFbaHJlZl0nKTsKICAgIGxpbmtzLmZvckVhY2goZnVuY3Rpb24gKGEpIHsKICAgICAgdmFyIGhyZWYgPSAoYS5nZXRBdHRyaWJ1dGUoJ2hyZWYnKSB8fCAnJykuc3BsaXQoJyMnKVswXS5zcGxpdCgnPycpWzBdOwogICAgICB2YXIgaHJlZkZpbGUgPSBocmVmLnNwbGl0KCcvJykucG9wKCkudG9Mb3dlckNhc2UoKTsKICAgICAgaWYgKGhyZWZGaWxlICYmIGhyZWZGaWxlID09PSBmaWxlKSB7CiAgICAgICAgYS5jbGFzc0xpc3QuYWRkKCdhY3RpdmUnKTsKICAgICAgICBhLnNldEF0dHJpYnV0ZSgnYXJpYS1jdXJyZW50JywgJ3BhZ2UnKTsKICAgICAgICAvLyBFbnN1cmUgYSBwYXJlbnQgZ3JvdXAgKGlmIGFueSkgaXMgZXhwYW5kZWQKICAgICAgICB2YXIgZ3JvdXAgPSBhLmNsb3Nlc3QgPyBhLmNsb3Nlc3QoJy5uYXYtZ3JvdXAnKSA6IG51bGw7CiAgICAgICAgaWYgKGdyb3VwKSBncm91cC5jbGFzc0xpc3QucmVtb3ZlKCdjbG9zZWQnKTsKICAgICAgfQogICAgfSk7CiAgfQogIGZ1bmN0aW9uIGluaXQoKSB7IGhpZ2hsaWdodEFjdGl2ZSgpOyB9CiAgaWYgKGRvY3VtZW50LnJlYWR5U3RhdGUgPT09ICdsb2FkaW5nJykgewogICAgZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGluaXQpOwogIH0gZWxzZSB7IGluaXQoKTsgfQogIHdpbmRvdy5hZGRFdmVudExpc3RlbmVyKCdwYWdlc2hvdycsIGhpZ2hsaWdodEFjdGl2ZSk7CiAgd2luZG93Lk51bGxOYXZpZ2F0aW9uID0geyBoaWdobGlnaHRBY3RpdmU6IGhpZ2hsaWdodEFjdGl2ZSwgY3VycmVudEZpbGU6IGN1cnJlbnRGaWxlIH07Cn0pKCk7Cg=="></script>
+<script>(function(){var KEY='null-itsm-platform-mode';var isPlatform=false;try{isPlatform=sessionStorage.getItem(KEY)==='1';}catch(e){}if(isPlatform){document.querySelectorAll('[data-platform-only]').forEach(function(el){el.removeAttribute('data-platform-only');});document.body.classList.add('platform-mode');}else{document.querySelectorAll('[data-platform-only]').forEach(function(el){el.remove();});}var menu=document.getElementById('userMenu');if(menu){var note=document.createElement('p');note.className='um-note';note.textContent=isPlatform?'Platform demo view — you are viewing as a NULL platform administrator. Organization data is unchanged.':'Organization demo view — Platform Administration is hidden. Switch below to preview the platform-admin view.';menu.appendChild(note);var b=document.createElement('button');b.type='button';b.className='um-switch';b.setAttribute('role','menuitem');b.textContent=isPlatform?'Return to Organization view (demo)':'View as Platform Admin (demo)';b.addEventListener('click',function(){try{if(isPlatform)sessionStorage.removeItem(KEY);else sessionStorage.setItem(KEY,'1');}catch(e){}location.reload();});menu.appendChild(b);var st=document.createElement('style');st.textContent='.um-switch{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid rgba(0,0,0,.08);padding:10px 14px;font:inherit;font-size:13px;font-weight:600;color:inherit;cursor:pointer}.um-switch:hover{background:rgba(0,0,0,.06)}';document.head.appendChild(st);}if(document.body.hasAttribute('data-platform-page')){var main=document.getElementById('pageMain');var denied=document.getElementById('accessDenied');if(isPlatform){if(main)main.style.display='';}else{if(main)main.style.display='none';if(denied)denied.hidden=false;}}})();</script>
 </body>
 </html>
