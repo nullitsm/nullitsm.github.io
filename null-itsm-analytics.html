@@ -6,6 +6,7 @@
     <meta name="color-scheme" content="light" />
     <link rel="icon" href="data:," />
     <title>NULL ITSM Analytics</title>
+    <style>[data-platform-only]{display:none!important}</style>
     <style>
       /* Board type, self-hosted so the screen renders in the board's own
          faces everywhere: Playfair Display for headlines, Archivo for UI
@@ -329,13 +330,16 @@
       .page-header .banner {
         position: absolute;
         top: 0;
-        right: 0;
+        right: -28px;
         height: 100%;
-        width: 46%;
+        width: min(430px, 52%);
         object-fit: cover;
         object-position: center 62%;
         pointer-events: none;
         display: none;
+        opacity: .92;
+        filter: grayscale(1) contrast(1.08);
+        clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
         -webkit-mask-image: linear-gradient(to left, black 55%, transparent);
         mask-image: linear-gradient(to left, black 55%, transparent);
       }
@@ -749,6 +753,13 @@
           settings: ico('<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'),
           admin: ico('<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'),
           users: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+          orgadmin: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+          platformadmin: ico('<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'),
+          orgroles: ico('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'),
+          platformusers: ico('<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'),
+          platformroles: ico('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'),
+          tenants: ico('<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/>'),
+          audit: ico('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>'),
           chev: '<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>'
         };
         var NAV = [
@@ -758,7 +769,8 @@
           { type: "item", id: "changes", label: "Change Management" },
           { type: "item", id: "problems", label: "Problem Management" },
           { type: "item", id: "analytics", label: "Reports & Analytics" },
-          { type: "group", id: "admin", label: "Admin", items: [["users", "Users & Roles"], ["settings", "Platform Settings"]] }
+          { type: "group", id: "admin", label: "Admin", items: [["settings", "Platform Settings"]] },
+          { type: "group", id: "platformadmin", label: "Platform Administration", platformOnly: true, items: [["platformusers", "Platform Admin Users"], ["platformroles", "Platform Roles & Permissions"], ["tenants", "Tenant Management"], ["audit", "Platform Audit Logs"], ["settings", "Platform Settings"]] }
         ];
         var NAV_HREFS = {
           home: "null-itsm-command-center.html",
@@ -773,7 +785,10 @@
           changes: "null-itsm-changes.html",
           problems: "null-itsm-problem-management.html",
           analytics: "null-itsm-analytics.html",
-          users: "null-itsm-users-roles.html",
+          platformusers: "null-itsm-platform-admin-users.html",
+          platformroles: "null-itsm-platform-admin-users.html?tab=roles",
+          tenants: "null-itsm-tenant-management.html",
+          audit: "null-itsm-platform-audit-logs.html",
           settings: "null-itsm-platform-settings.html"
         };
         function navItemHTML(id, label, sub) {
@@ -796,10 +811,11 @@
               html += navItemHTML(entry.id, entry.label, false);
             } else {
               var kidsId = uid + "-" + entry.id;
-              html += '<div class="nav-group">' +
-                '<button type="button" class="nav-item nav-parent" data-nav-toggle aria-expanded="true" aria-controls="' + kidsId + '">' +
+              var po = entry.platformOnly ? " data-platform-only" : "";
+              html += '<div class="nav-group"' + po + '>' +
+                '<button type="button" class="nav-item nav-parent" data-nav-toggle aria-expanded="true" aria-controls="' + kidsId + '"' + po + '>' +
                 ICONS[entry.id] + '<span class="nav-label">' + entry.label + "</span>" + ICONS.chev + "</button>" +
-                '<div class="nav-children" id="' + kidsId + '">' +
+                '<div class="nav-children" id="' + kidsId + '"' + po + '>' +
                 entry.items.map(function (item) { return navItemHTML(item[0], item[1], true); }).join("") +
                 "</div></div>";
             }
@@ -1140,5 +1156,6 @@
     </script>
     <script src="data:application/javascript;base64,LyogTlVMTCBJVFNNIOKAlCBzaGFyZWQgZGVtb25zdHJhdGlvbiBhdXRoZW50aWNhdGlvbi4KICoKICogRGVtb25zdHJhdGlvbiBvbmx5OiB0aGlzIGlzIGEgc3RhdGljIGRlcGxveW1lbnQgd2l0aCBubyBiYWNrZW5kLgogKiBUaGUgInNlc3Npb24iIGlzIGEgZmxhZyBpbiBzZXNzaW9uU3RvcmFnZSB0aGF0IGxhc3RzIGZvciB0aGUKICogYnJvd3NlciB0YWIgc2Vzc2lvbjsgcmVhbCBhdXRoZW50aWNhdGlvbiByZXF1aXJlcyBhIHNlY3VyZSBzZXJ2ZXIuCiAqCiAqIEEgcGFnZSBvcHRzIGludG8gcHJvdGVjdGlvbiB3aXRoIDxib2R5IGRhdGEtcmVxdWlyZXMtYXV0aD4uCiAqIFVuYXV0aGVudGljYXRlZCB2aXNpdG9ycyBhcmUgcmVkaXJlY3RlZCB0byB0aGUgc2lnbi1pbiBwYWdlLgogKiBSZWZyZXNoaW5nIGtlZXBzIHRoZSBzZXNzaW9uIChzZXNzaW9uU3RvcmFnZSBzdXJ2aXZlcyByZWxvYWRzKS4KICogU2lnbmluZyBvdXQgY2xlYXJzIHRoZSBzZXNzaW9uLCBhbmQgdGhlIHBhZ2VzaG93IGNoZWNrIGJlbG93CiAqIHJlLXZhbGlkYXRlcyBvbiBiYWNrL2ZvcndhcmQtY2FjaGUgcmVzdG9yZXMgc28gdGhlIGJyb3dzZXIgQmFjawogKiBidXR0b24gY2Fubm90IGV4cG9zZSBhIHByb3RlY3RlZCBwYWdlIGFmdGVyIHNpZ24tb3V0LgogKi8KKGZ1bmN0aW9uICgpIHsKICAidXNlIHN0cmljdCI7CgogIHZhciBTRVNTSU9OX0tFWSA9ICJudWxsLWl0c20tc2Vzc2lvbiI7CiAgdmFyIExFR0FDWV9LRVkgPSAibnVsbC1pdHNtLXVzZXIiOwogIHZhciBTSUdOX0lOID0gIm51bGwtaXRzbS1zaWduLWluLmh0bWwiOwoKICBmdW5jdGlvbiBnZXRTZXNzaW9uKCkgewogICAgdHJ5IHsKICAgICAgdmFyIHJhdyA9IHNlc3Npb25TdG9yYWdlLmdldEl0ZW0oU0VTU0lPTl9LRVkpOwogICAgICBpZiAocmF3KSB7CiAgICAgICAgdHJ5IHsKICAgICAgICAgIHZhciBwYXJzZWQgPSBKU09OLnBhcnNlKHJhdyk7CiAgICAgICAgICBpZiAocGFyc2VkICYmIHBhcnNlZC51c2VyKSByZXR1cm4gcGFyc2VkOwogICAgICAgIH0gY2F0Y2ggKGUpIHsKICAgICAgICAgIHJldHVybiB7IHVzZXI6IHJhdyB9OwogICAgICAgIH0KICAgICAgfQogICAgICB2YXIgbGVnYWN5ID0gc2Vzc2lvblN0b3JhZ2UuZ2V0SXRlbShMRUdBQ1lfS0VZKTsKICAgICAgaWYgKGxlZ2FjeSkgcmV0dXJuIHsgdXNlcjogbGVnYWN5IH07CiAgICB9IGNhdGNoIChlKSB7IC8qIHN0b3JhZ2UgdW5hdmFpbGFibGUgKi8gfQogICAgcmV0dXJuIG51bGw7CiAgfQoKICBmdW5jdGlvbiByZXF1aXJlc0F1dGgoKSB7CiAgICByZXR1cm4gZG9jdW1lbnQuYm9keSAmJiBkb2N1bWVudC5ib2R5Lmhhc0F0dHJpYnV0ZSgiZGF0YS1yZXF1aXJlcy1hdXRoIik7CiAgfQoKICBmdW5jdGlvbiBndWFyZCgpIHsKICAgIGlmIChyZXF1aXJlc0F1dGgoKSAmJiAhZ2V0U2Vzc2lvbigpKSB7CiAgICAgIHdpbmRvdy5sb2NhdGlvbi5yZXBsYWNlKFNJR05fSU4pOwogICAgICByZXR1cm4gZmFsc2U7CiAgICB9CiAgICByZXR1cm4gdHJ1ZTsKICB9CgogIGZ1bmN0aW9uIHNpZ25PdXQoKSB7CiAgICB0cnkgewogICAgICBzZXNzaW9uU3RvcmFnZS5yZW1vdmVJdGVtKFNFU1NJT05fS0VZKTsKICAgICAgc2Vzc2lvblN0b3JhZ2UucmVtb3ZlSXRlbShMRUdBQ1lfS0VZKTsKICAgIH0gY2F0Y2ggKGUpIHsgLyogc3RvcmFnZSB1bmF2YWlsYWJsZSAqLyB9CiAgICB3aW5kb3cubG9jYXRpb24ucmVwbGFjZShTSUdOX0lOKTsKICB9CgogIC8qIFJ1biBhcyBlYXJseSBhcyBwb3NzaWJsZTogdGhpcyBzY3JpcHQgc2l0cyBhdCB0aGUgZW5kIG9mIDxib2R5PiwKICAgICBzbyB0aGUgYm9keSB0YWcgYW5kIGl0cyBkYXRhLXJlcXVpcmVzLWF1dGggbWFya2VyIGFscmVhZHkgZXhpc3QuICovCiAgZ3VhcmQoKTsKCiAgZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcigiRE9NQ29udGVudExvYWRlZCIsIGZ1bmN0aW9uICgpIHsKICAgIGd1YXJkKCk7CiAgICB2YXIgYnV0dG9ucyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoIltkYXRhLXNpZ24tb3V0XSIpOwogICAgZm9yICh2YXIgaSA9IDA7IGkgPCBidXR0b25zLmxlbmd0aDsgaSsrKSB7CiAgICAgIGJ1dHRvbnNbaV0uYWRkRXZlbnRMaXN0ZW5lcigiY2xpY2siLCBmdW5jdGlvbiAoZXZlbnQpIHsKICAgICAgICBldmVudC5wcmV2ZW50RGVmYXVsdCgpOwogICAgICAgIHNpZ25PdXQoKTsKICAgICAgfSk7CiAgICB9CiAgfSk7CgogIC8qIEJhY2svZm9yd2FyZCBjYWNoZTogYSBwcm90ZWN0ZWQgcGFnZSByZXN0b3JlZCBmcm9tIGJmY2FjaGUgYWZ0ZXIKICAgICBzaWduLW91dCBtdXN0IHJlLWNoZWNrIHRoZSBzZXNzaW9uIGluc3RlYWQgb2Ygc2hvd2luZyBjb250ZW50LiAqLwogIHdpbmRvdy5hZGRFdmVudExpc3RlbmVyKCJwYWdlc2hvdyIsIGZ1bmN0aW9uIChldmVudCkgewogICAgaWYgKGV2ZW50LnBlcnNpc3RlZCkgZ3VhcmQoKTsKICB9KTsKCiAgd2luZG93Lk51bGxBdXRoID0gewogICAgZ2V0U2Vzc2lvbjogZ2V0U2Vzc2lvbiwKICAgIHNpZ25PdXQ6IHNpZ25PdXQsCiAgICBndWFyZDogZ3VhcmQKICB9Owp9KSgpOwo="></script>
     <script src="data:application/javascript;base64,LyogTlVMTCBJVFNNIOKAlCBzaGFyZWQgYXBwbGljYXRpb24gbmF2aWdhdGlvbi4KICoKICogTG9hZGVkIGJ5IGV2ZXJ5IGludGVybmFsIG1vZHVsZSBwYWdlIGFmdGVyIGpzL2F1dGguanMuIEtlZXBzIHRoZQogKiBzaGFyZWQgY2hyb21lIGNvbnNpc3RlbnQgYWNyb3NzIHRoZSBzdWl0ZTogdGhlIHNpZGViYXIgbGluayB0aGF0CiAqIG1hdGNoZXMgdGhlIGN1cnJlbnQgZmlsZSBpcyBtYXJrZWQgYWN0aXZlLCBhbmQgYW55IGVsZW1lbnQgd2l0aAogKiBkYXRhLXNpZ24tb3V0IHNpZ25zIHRoZSB1c2VyIG91dCB0aHJvdWdoIHRoZSBzaGFyZWQgYXV0aCBoZWxwZXIuCiAqIFBhZ2Utc3BlY2lmaWMgbWFya3VwIGFuZCBzdHlsaW5nIHN0YXkgaW4gZWFjaCBwYWdlLgogKi8KKGZ1bmN0aW9uICgpIHsKICAidXNlIHN0cmljdCI7CgogIGZ1bmN0aW9uIGN1cnJlbnRGaWxlKCkgewogICAgdmFyIHBhdGggPSB3aW5kb3cubG9jYXRpb24ucGF0aG5hbWUgfHwgIiI7CiAgICB2YXIgZmlsZSA9IHBhdGguc3Vic3RyaW5nKHBhdGgubGFzdEluZGV4T2YoIi8iKSArIDEpOwogICAgcmV0dXJuIGZpbGUgfHwgIm51bGwtaXRzbS1jb21tYW5kLWNlbnRlci5odG1sIjsKICB9CgogIGZ1bmN0aW9uIG1hcmtBY3RpdmUoKSB7CiAgICB2YXIgZmlsZSA9IGN1cnJlbnRGaWxlKCk7CiAgICB2YXIgbGlua3MgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJhLm5hdi1pdGVtW2hyZWZdIik7CiAgICBmb3IgKHZhciBpID0gMDsgaSA8IGxpbmtzLmxlbmd0aDsgaSsrKSB7CiAgICAgIHZhciBocmVmID0gbGlua3NbaV0uZ2V0QXR0cmlidXRlKCJocmVmIik7CiAgICAgIGlmIChocmVmID09PSBmaWxlKSB7CiAgICAgICAgbGlua3NbaV0uY2xhc3NMaXN0LmFkZCgiYWN0aXZlIik7CiAgICAgICAgbGlua3NbaV0uc2V0QXR0cmlidXRlKCJhcmlhLWN1cnJlbnQiLCAicGFnZSIpOwogICAgICB9CiAgICB9CiAgfQoKICBmdW5jdGlvbiB3aXJlU2lnbk91dCgpIHsKICAgIGlmICh3aW5kb3cuTnVsbEF1dGgpIHJldHVybjsgLyogYXV0aC5qcyBhbHJlYWR5IHdpcmVkIGl0ICovCiAgICB2YXIgYnV0dG9ucyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoIltkYXRhLXNpZ24tb3V0XSIpOwogICAgZm9yICh2YXIgaSA9IDA7IGkgPCBidXR0b25zLmxlbmd0aDsgaSsrKSB7CiAgICAgIGJ1dHRvbnNbaV0uYWRkRXZlbnRMaXN0ZW5lcigiY2xpY2siLCBmdW5jdGlvbiAoZXZlbnQpIHsKICAgICAgICBldmVudC5wcmV2ZW50RGVmYXVsdCgpOwogICAgICAgIHRyeSB7CiAgICAgICAgICBzZXNzaW9uU3RvcmFnZS5yZW1vdmVJdGVtKCJudWxsLWl0c20tc2Vzc2lvbiIpOwogICAgICAgICAgc2Vzc2lvblN0b3JhZ2UucmVtb3ZlSXRlbSgibnVsbC1pdHNtLXVzZXIiKTsKICAgICAgICB9IGNhdGNoIChlKSB7IC8qIHN0b3JhZ2UgdW5hdmFpbGFibGUgKi8gfQogICAgICAgIHdpbmRvdy5sb2NhdGlvbi5yZXBsYWNlKCJudWxsLWl0c20tc2lnbi1pbi5odG1sIik7CiAgICAgIH0pOwogICAgfQogIH0KCiAgZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcigiRE9NQ29udGVudExvYWRlZCIsIGZ1bmN0aW9uICgpIHsKICAgIG1hcmtBY3RpdmUoKTsKICAgIHdpcmVTaWduT3V0KCk7CiAgfSk7Cn0pKCk7Cg=="></script>
+    <script>(function(){var KEY='null-itsm-platform-mode';var isPlatform=false;try{isPlatform=sessionStorage.getItem(KEY)==='1';}catch(e){}if(isPlatform){document.querySelectorAll('[data-platform-only]').forEach(function(el){el.removeAttribute('data-platform-only');});document.body.classList.add('platform-mode');}else{document.querySelectorAll('[data-platform-only]').forEach(function(el){el.remove();});}var menu=document.getElementById('userMenu');if(menu){var note=document.createElement('p');note.className='um-note';note.textContent=isPlatform?'Platform demo view — you are viewing as a NULL platform administrator. Organization data is unchanged.':'Organization demo view — Platform Administration is hidden. Switch below to preview the platform-admin view.';menu.appendChild(note);var b=document.createElement('button');b.type='button';b.className='um-switch';b.setAttribute('role','menuitem');b.textContent=isPlatform?'Return to Organization view (demo)':'View as Platform Admin (demo)';b.addEventListener('click',function(){try{if(isPlatform)sessionStorage.removeItem(KEY);else sessionStorage.setItem(KEY,'1');}catch(e){}location.reload();});menu.appendChild(b);var st=document.createElement('style');st.textContent='.um-switch{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid rgba(0,0,0,.08);padding:10px 14px;font:inherit;font-size:13px;font-weight:600;color:inherit;cursor:pointer}.um-switch:hover{background:rgba(0,0,0,.06)}';document.head.appendChild(st);}if(document.body.hasAttribute('data-platform-page')){var main=document.getElementById('pageMain');var denied=document.getElementById('accessDenied');if(isPlatform){if(main)main.style.display='';}else{if(main)main.style.display='none';if(denied)denied.hidden=false;}}})();</script>
   </body>
 </html>
