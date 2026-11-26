@@ -567,7 +567,47 @@
         * { animation: none !important; transition: none !important; }
       }
     </style>
-  </head>
+  <style id="null-topbar">
+/* NULL ITSM canonical top bar — one shared chrome for every internal page.
+   Appended after all page styles; header.topbar-prefixed selectors out-specify
+   the older per-page topbar rules without touching them. */
+header.topbar{display:flex;align-items:center;gap:14px;padding:10px 26px;border-bottom:1px solid #E5DED2;background:#FBF9F4;position:sticky;top:0;z-index:20}
+header.topbar .menu-btn{width:38px;height:38px;border:0;background:transparent;border-radius:50%;font-size:18px;line-height:1;color:var(--ink,#171512);display:grid;place-items:center;cursor:pointer;flex:0 0 auto}
+header.topbar .menu-btn:hover{background:#EFE9DC}
+header.topbar .mobile-brand{display:none;font-family:var(--serif,Georgia,'Times New Roman',serif);font-weight:800;font-size:21px;color:var(--ink,#171512);letter-spacing:.02em}
+header.topbar .search{flex:1;max-width:560px;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line2,#DDD5C5);border-radius:7px;padding:0 12px;height:38px;box-sizing:border-box}
+header.topbar .search>span{color:var(--muted,#8A8375);font-size:15px}
+header.topbar .search input{border:0;outline:0;background:transparent;flex:1;min-width:0;font:inherit;font-size:13.5px;color:var(--ink,#171512)}
+header.topbar .search input::placeholder{color:var(--muted,#8A8375)}
+header.topbar .top-icons{display:flex;align-items:center;gap:4px;margin-left:auto;flex:0 0 auto}
+header.topbar .icon-btn{width:38px;height:38px;border:0;background:transparent;border-radius:50%;font-size:16px;color:var(--ink2,#5A544A);display:grid;place-items:center;cursor:pointer;position:relative;padding:0}
+header.topbar .icon-btn:hover{background:#EFE9DC}
+header.topbar .icon-btn svg{display:block}
+header.topbar .notif-badge{position:absolute;top:2px;right:2px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:#171512;color:#F5F1E6;font-size:10px;font-weight:700;line-height:17px;text-align:center;box-sizing:border-box}
+header.topbar .user-wrap{position:relative;flex:0 0 auto}
+header.topbar .user-chip{display:flex;align-items:center;gap:10px;padding:4px 6px 4px 4px;border:0;background:transparent;text-align:left;cursor:pointer}
+header.topbar .user-chip .avatar{width:36px;height:36px;border-radius:50%;background:#171512;color:#F5F1E6;display:grid;place-items:center;font-weight:700;font-size:12.5px;flex:0 0 36px}
+header.topbar .user-chip .who{display:flex;flex-direction:column;line-height:1.2;min-width:0}
+header.topbar .user-chip .who b{font-size:13.5px;font-weight:700;color:var(--ink,#171512);white-space:nowrap}
+header.topbar .user-chip .who .role{font-size:11.5px;color:var(--muted,#8A8375);white-space:nowrap}
+header.topbar .user-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:260px;background:#FFFDF8;border:1px solid var(--line2,#DDD5C5);border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.16);padding:14px;z-index:50;box-sizing:border-box}
+header.topbar .user-menu[hidden]{display:none}
+header.topbar .user-menu .um-head{padding:2px 4px 10px;border-bottom:1px solid var(--line,#E5DED2);margin-bottom:10px}
+header.topbar .user-menu .um-head b{display:block;font-size:14px;color:var(--ink,#171512)}
+header.topbar .user-menu .um-head span{font-size:12px;color:var(--muted,#8A8375)}
+header.topbar .user-menu .um-note{font-size:12px;line-height:1.5;color:var(--muted,#8A8375);margin:0 0 12px;padding:0 4px}
+header.topbar .user-menu .signout-btn{display:block;width:100%;text-align:left;background:none;border:0;padding:8px 10px;font-size:13px;font-weight:600;color:var(--ink,#171512);cursor:pointer;border-radius:6px}
+header.topbar .user-menu .signout-btn:hover{background:#F2EEE6}
+@media (max-width:860px){
+  header.topbar{padding:10px 14px;gap:10px}
+  header.topbar .search{display:none}
+  header.topbar .mobile-brand{display:block}
+  header.topbar .user-chip .who{display:none}
+  header.topbar .user-chip{padding:4px}
+}
+
+</style>
+</head>
   <body data-requires-auth>
     <div class="shell">
       <!-- Sidebar -->
@@ -589,38 +629,80 @@
       <div style="min-width:0">
         <!-- Top bar -->
         <header class="topbar">
-          <div class="topbar-inner">
-            <button type="button" class="hamburger" id="hamburger" aria-label="Open navigation menu" aria-expanded="false">☰</button>
-            <span class="mobile-word">NULL</span>
-            <div class="search-wrap">
+  <button type="button" id="menuBtn" class="menu-btn" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+  <div class="mobile-brand">NULL ITSM</div>
+<div class="search-wrap">
               <input class="field" id="search" type="search" placeholder="Search tickets, assets, users, or knowledge…" aria-label="Search — filters the category breakdown below" />
             </div>
-            <div class="top-actions">
-              <button type="button" class="icon-btn" aria-label="Breached tickets" title="Breached tickets">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-                <span class="badge">9</span>
-              </button>
-              <button type="button" class="icon-btn" aria-label="Knowledge base help" title="Knowledge Base" style="font-size:15px">?</button>
-              <button type="button" class="icon-btn" aria-label="All modules" title="All modules">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-              </button>
-              <div class="user-wrap">
-                <button type="button" class="user-chip" id="userChip" aria-haspopup="menu" aria-expanded="false">
-                  <span class="avatar" id="userAvatar">JM</span>
-                  <span class="user-meta">
-                    <span class="name" id="userName">Jamiah McQuiller</span>
-                    <span class="role">IT Operations</span>
-                  </span>
-                </button>
-                <div class="user-menu" id="userMenu" role="menu" hidden>
-                  <a href="null-itsm-platform-settings.html" role="menuitem">Platform Settings</a>
-                  <button type="button" role="menuitem" data-sign-out>Sign Out</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mobile-nav" id="mobileNav" hidden></div>
-        </header>
+  <div class="top-icons">
+    <button type="button" class="icon-btn" id="bellBtn" aria-label="Notifications" data-toast="No new notifications"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="notif-badge" id="notifBadge" hidden>0</span></button>
+    <button type="button" class="icon-btn" id="helpBtn" aria-label="Help" data-toast="Help centre — Service Desk documentation"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></button>
+    <button type="button" class="icon-btn" id="appsBtn" aria-label="Apps"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></button>
+  </div>
+  <div class="user-wrap">
+    <button type="button" class="user-chip" id="userChip" aria-haspopup="true" aria-expanded="false"><span class="avatar" id="sessionAvatar" data-session-avatar>JM</span><span class="who"><b id="sessionUserName" data-session-user>Jamiah McQuiller</b><span class="role">IT Operations</span></span></button>
+    <div class="user-menu" id="userMenu" hidden>
+      <div class="um-head"><b id="sessionUserNameMenu" data-session-user>Jamiah McQuiller</b><span>IT Operations</span></div>
+      <p class="um-note">Signed in to NULL ITSM. Demonstration session — real authentication requires a secure backend.</p>
+      <button type="button" class="signout-btn" id="signOutBtn" data-sign-out>Sign out</button>
+    </div>
+  </div>
+</header>
+      <div class="mobile-nav" id="mobileNav" hidden></div>
+<script>
+/* NULL ITSM canonical top bar — session-derived avatar/name, chip menu, notification badge hook.
+   Runs once per page; guarded so a second copy never double-wires the chip. */
+(function(){
+  if(window.__nullTopbarWired) return; window.__nullTopbarWired = true;
+  function initials(name){
+    if(!name) return 'JM';
+    var parts = String(name).trim().split(/\s+/).filter(Boolean);
+    return parts.map(function(w){ return w.charAt(0); }).join('').slice(0,2).toUpperCase();
+  }
+  try{
+    var raw = sessionStorage.getItem('null-itsm-session');
+    var sess = raw ? JSON.parse(raw) : null;
+    var user = (sess && sess.user) ? String(sess.user) : null;
+    if(user){
+      document.querySelectorAll('[data-session-user]').forEach(function(el){ el.textContent = user; });
+      var init = initials(user);
+      document.querySelectorAll('[data-session-avatar]').forEach(function(el){ el.textContent = init; });
+    }
+  }catch(e){}
+  var chip = document.getElementById('userChip'), menu = document.getElementById('userMenu');
+  if(chip && menu){
+    chip.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = menu.hidden;
+      menu.hidden = !open;
+      chip.setAttribute('aria-expanded', String(open));
+    });
+    document.addEventListener('click', function(e){
+      if(!menu.hidden && !menu.contains(e.target) && !chip.contains(e.target)){
+        menu.hidden = true; chip.setAttribute('aria-expanded','false');
+      }
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && !menu.hidden){
+        menu.hidden = true; chip.setAttribute('aria-expanded','false');
+      }
+    });
+  }
+  /* Notification badge hook — pages with real notifications call
+     window.NULLTopbar.setNotifCount(n); badge stays hidden at 0. */
+  window.NULLTopbar = window.NULLTopbar || {};
+  window.NULLTopbar.setNotifCount = function(n){
+    var b = document.getElementById('notifBadge');
+    if(!b) return;
+    n = Math.max(0, parseInt(n, 10) || 0);
+    b.textContent = String(n);
+    b.hidden = n === 0;
+  };
+})();
+</script>
+
+
+
 
         <main class="content">
           <!-- Page header -->
@@ -835,7 +917,7 @@
           toggle.setAttribute("aria-expanded", String(open));
         });
 
-        var hamburger = document.getElementById("hamburger");
+        var hamburger = document.getElementById("menuBtn");
         var mobileNav = document.getElementById("mobileNav");
         hamburger.addEventListener("click", function () {
           var open = mobileNav.hidden;
@@ -850,19 +932,7 @@
           }
         });
 
-        var userChip = document.getElementById("userChip");
-        var userMenu = document.getElementById("userMenu");
-        userChip.addEventListener("click", function () {
-          var open = userMenu.hidden;
-          userMenu.hidden = !open;
-          userChip.setAttribute("aria-expanded", String(open));
-        });
-        document.addEventListener("click", function (e) {
-          if (!e.target.closest(".user-wrap")) {
-            userMenu.hidden = true;
-            userChip.setAttribute("aria-expanded", "false");
-          }
-        });
+        
         userMenu.addEventListener("click", function () {
           userMenu.hidden = true;
           userChip.setAttribute("aria-expanded", "false");
@@ -1165,6 +1235,6 @@
     </script>
     <script src="data:application/javascript;base64,LyogTlVMTCBJVFNNIOKAlCBzaGFyZWQgZGVtb25zdHJhdGlvbiBhdXRoZW50aWNhdGlvbi4KICoKICogRGVtb25zdHJhdGlvbiBvbmx5OiB0aGlzIGlzIGEgc3RhdGljIGRlcGxveW1lbnQgd2l0aCBubyBiYWNrZW5kLgogKiBUaGUgInNlc3Npb24iIGlzIGEgZmxhZyBpbiBzZXNzaW9uU3RvcmFnZSB0aGF0IGxhc3RzIGZvciB0aGUKICogYnJvd3NlciB0YWIgc2Vzc2lvbjsgcmVhbCBhdXRoZW50aWNhdGlvbiByZXF1aXJlcyBhIHNlY3VyZSBzZXJ2ZXIuCiAqCiAqIEEgcGFnZSBvcHRzIGludG8gcHJvdGVjdGlvbiB3aXRoIDxib2R5IGRhdGEtcmVxdWlyZXMtYXV0aD4uCiAqIFVuYXV0aGVudGljYXRlZCB2aXNpdG9ycyBhcmUgcmVkaXJlY3RlZCB0byB0aGUgc2lnbi1pbiBwYWdlLgogKiBSZWZyZXNoaW5nIGtlZXBzIHRoZSBzZXNzaW9uIChzZXNzaW9uU3RvcmFnZSBzdXJ2aXZlcyByZWxvYWRzKS4KICogU2lnbmluZyBvdXQgY2xlYXJzIHRoZSBzZXNzaW9uLCBhbmQgdGhlIHBhZ2VzaG93IGNoZWNrIGJlbG93CiAqIHJlLXZhbGlkYXRlcyBvbiBiYWNrL2ZvcndhcmQtY2FjaGUgcmVzdG9yZXMgc28gdGhlIGJyb3dzZXIgQmFjawogKiBidXR0b24gY2Fubm90IGV4cG9zZSBhIHByb3RlY3RlZCBwYWdlIGFmdGVyIHNpZ24tb3V0LgogKi8KKGZ1bmN0aW9uICgpIHsKICAidXNlIHN0cmljdCI7CgogIHZhciBTRVNTSU9OX0tFWSA9ICJudWxsLWl0c20tc2Vzc2lvbiI7CiAgdmFyIExFR0FDWV9LRVkgPSAibnVsbC1pdHNtLXVzZXIiOwogIHZhciBTSUdOX0lOID0gIm51bGwtaXRzbS1zaWduLWluLmh0bWwiOwoKICBmdW5jdGlvbiBnZXRTZXNzaW9uKCkgewogICAgdHJ5IHsKICAgICAgdmFyIHJhdyA9IHNlc3Npb25TdG9yYWdlLmdldEl0ZW0oU0VTU0lPTl9LRVkpOwogICAgICBpZiAocmF3KSB7CiAgICAgICAgdHJ5IHsKICAgICAgICAgIHZhciBwYXJzZWQgPSBKU09OLnBhcnNlKHJhdyk7CiAgICAgICAgICBpZiAocGFyc2VkICYmIHBhcnNlZC51c2VyKSByZXR1cm4gcGFyc2VkOwogICAgICAgIH0gY2F0Y2ggKGUpIHsKICAgICAgICAgIHJldHVybiB7IHVzZXI6IHJhdyB9OwogICAgICAgIH0KICAgICAgfQogICAgICB2YXIgbGVnYWN5ID0gc2Vzc2lvblN0b3JhZ2UuZ2V0SXRlbShMRUdBQ1lfS0VZKTsKICAgICAgaWYgKGxlZ2FjeSkgcmV0dXJuIHsgdXNlcjogbGVnYWN5IH07CiAgICB9IGNhdGNoIChlKSB7IC8qIHN0b3JhZ2UgdW5hdmFpbGFibGUgKi8gfQogICAgcmV0dXJuIG51bGw7CiAgfQoKICBmdW5jdGlvbiByZXF1aXJlc0F1dGgoKSB7CiAgICByZXR1cm4gZG9jdW1lbnQuYm9keSAmJiBkb2N1bWVudC5ib2R5Lmhhc0F0dHJpYnV0ZSgiZGF0YS1yZXF1aXJlcy1hdXRoIik7CiAgfQoKICBmdW5jdGlvbiBndWFyZCgpIHsKICAgIGlmIChyZXF1aXJlc0F1dGgoKSAmJiAhZ2V0U2Vzc2lvbigpKSB7CiAgICAgIHdpbmRvdy5sb2NhdGlvbi5yZXBsYWNlKFNJR05fSU4pOwogICAgICByZXR1cm4gZmFsc2U7CiAgICB9CiAgICByZXR1cm4gdHJ1ZTsKICB9CgogIGZ1bmN0aW9uIHNpZ25PdXQoKSB7CiAgICB0cnkgewogICAgICBzZXNzaW9uU3RvcmFnZS5yZW1vdmVJdGVtKFNFU1NJT05fS0VZKTsKICAgICAgc2Vzc2lvblN0b3JhZ2UucmVtb3ZlSXRlbShMRUdBQ1lfS0VZKTsKICAgIH0gY2F0Y2ggKGUpIHsgLyogc3RvcmFnZSB1bmF2YWlsYWJsZSAqLyB9CiAgICB3aW5kb3cubG9jYXRpb24ucmVwbGFjZShTSUdOX0lOKTsKICB9CgogIC8qIFJ1biBhcyBlYXJseSBhcyBwb3NzaWJsZTogdGhpcyBzY3JpcHQgc2l0cyBhdCB0aGUgZW5kIG9mIDxib2R5PiwKICAgICBzbyB0aGUgYm9keSB0YWcgYW5kIGl0cyBkYXRhLXJlcXVpcmVzLWF1dGggbWFya2VyIGFscmVhZHkgZXhpc3QuICovCiAgZ3VhcmQoKTsKCiAgZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcigiRE9NQ29udGVudExvYWRlZCIsIGZ1bmN0aW9uICgpIHsKICAgIGd1YXJkKCk7CiAgICB2YXIgYnV0dG9ucyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoIltkYXRhLXNpZ24tb3V0XSIpOwogICAgZm9yICh2YXIgaSA9IDA7IGkgPCBidXR0b25zLmxlbmd0aDsgaSsrKSB7CiAgICAgIGJ1dHRvbnNbaV0uYWRkRXZlbnRMaXN0ZW5lcigiY2xpY2siLCBmdW5jdGlvbiAoZXZlbnQpIHsKICAgICAgICBldmVudC5wcmV2ZW50RGVmYXVsdCgpOwogICAgICAgIHNpZ25PdXQoKTsKICAgICAgfSk7CiAgICB9CiAgfSk7CgogIC8qIEJhY2svZm9yd2FyZCBjYWNoZTogYSBwcm90ZWN0ZWQgcGFnZSByZXN0b3JlZCBmcm9tIGJmY2FjaGUgYWZ0ZXIKICAgICBzaWduLW91dCBtdXN0IHJlLWNoZWNrIHRoZSBzZXNzaW9uIGluc3RlYWQgb2Ygc2hvd2luZyBjb250ZW50LiAqLwogIHdpbmRvdy5hZGRFdmVudExpc3RlbmVyKCJwYWdlc2hvdyIsIGZ1bmN0aW9uIChldmVudCkgewogICAgaWYgKGV2ZW50LnBlcnNpc3RlZCkgZ3VhcmQoKTsKICB9KTsKCiAgd2luZG93Lk51bGxBdXRoID0gewogICAgZ2V0U2Vzc2lvbjogZ2V0U2Vzc2lvbiwKICAgIHNpZ25PdXQ6IHNpZ25PdXQsCiAgICBndWFyZDogZ3VhcmQKICB9Owp9KSgpOwo="></script>
     <script src="data:application/javascript;base64,LyogTlVMTCBJVFNNIOKAlCBzaGFyZWQgYXBwbGljYXRpb24gbmF2aWdhdGlvbi4KICoKICogTG9hZGVkIGJ5IGV2ZXJ5IGludGVybmFsIG1vZHVsZSBwYWdlIGFmdGVyIGpzL2F1dGguanMuIEtlZXBzIHRoZQogKiBzaGFyZWQgY2hyb21lIGNvbnNpc3RlbnQgYWNyb3NzIHRoZSBzdWl0ZTogdGhlIHNpZGViYXIgbGluayB0aGF0CiAqIG1hdGNoZXMgdGhlIGN1cnJlbnQgZmlsZSBpcyBtYXJrZWQgYWN0aXZlLCBhbmQgYW55IGVsZW1lbnQgd2l0aAogKiBkYXRhLXNpZ24tb3V0IHNpZ25zIHRoZSB1c2VyIG91dCB0aHJvdWdoIHRoZSBzaGFyZWQgYXV0aCBoZWxwZXIuCiAqIFBhZ2Utc3BlY2lmaWMgbWFya3VwIGFuZCBzdHlsaW5nIHN0YXkgaW4gZWFjaCBwYWdlLgogKi8KKGZ1bmN0aW9uICgpIHsKICAidXNlIHN0cmljdCI7CgogIGZ1bmN0aW9uIGN1cnJlbnRGaWxlKCkgewogICAgdmFyIHBhdGggPSB3aW5kb3cubG9jYXRpb24ucGF0aG5hbWUgfHwgIiI7CiAgICB2YXIgZmlsZSA9IHBhdGguc3Vic3RyaW5nKHBhdGgubGFzdEluZGV4T2YoIi8iKSArIDEpOwogICAgcmV0dXJuIGZpbGUgfHwgIm51bGwtaXRzbS1jb21tYW5kLWNlbnRlci5odG1sIjsKICB9CgogIGZ1bmN0aW9uIG1hcmtBY3RpdmUoKSB7CiAgICB2YXIgZmlsZSA9IGN1cnJlbnRGaWxlKCk7CiAgICB2YXIgbGlua3MgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJhLm5hdi1pdGVtW2hyZWZdIik7CiAgICBmb3IgKHZhciBpID0gMDsgaSA8IGxpbmtzLmxlbmd0aDsgaSsrKSB7CiAgICAgIHZhciBocmVmID0gbGlua3NbaV0uZ2V0QXR0cmlidXRlKCJocmVmIik7CiAgICAgIGlmIChocmVmID09PSBmaWxlKSB7CiAgICAgICAgbGlua3NbaV0uY2xhc3NMaXN0LmFkZCgiYWN0aXZlIik7CiAgICAgICAgbGlua3NbaV0uc2V0QXR0cmlidXRlKCJhcmlhLWN1cnJlbnQiLCAicGFnZSIpOwogICAgICB9CiAgICB9CiAgfQoKICBmdW5jdGlvbiB3aXJlU2lnbk91dCgpIHsKICAgIGlmICh3aW5kb3cuTnVsbEF1dGgpIHJldHVybjsgLyogYXV0aC5qcyBhbHJlYWR5IHdpcmVkIGl0ICovCiAgICB2YXIgYnV0dG9ucyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoIltkYXRhLXNpZ24tb3V0XSIpOwogICAgZm9yICh2YXIgaSA9IDA7IGkgPCBidXR0b25zLmxlbmd0aDsgaSsrKSB7CiAgICAgIGJ1dHRvbnNbaV0uYWRkRXZlbnRMaXN0ZW5lcigiY2xpY2siLCBmdW5jdGlvbiAoZXZlbnQpIHsKICAgICAgICBldmVudC5wcmV2ZW50RGVmYXVsdCgpOwogICAgICAgIHRyeSB7CiAgICAgICAgICBzZXNzaW9uU3RvcmFnZS5yZW1vdmVJdGVtKCJudWxsLWl0c20tc2Vzc2lvbiIpOwogICAgICAgICAgc2Vzc2lvblN0b3JhZ2UucmVtb3ZlSXRlbSgibnVsbC1pdHNtLXVzZXIiKTsKICAgICAgICB9IGNhdGNoIChlKSB7IC8qIHN0b3JhZ2UgdW5hdmFpbGFibGUgKi8gfQogICAgICAgIHdpbmRvdy5sb2NhdGlvbi5yZXBsYWNlKCJudWxsLWl0c20tc2lnbi1pbi5odG1sIik7CiAgICAgIH0pOwogICAgfQogIH0KCiAgZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcigiRE9NQ29udGVudExvYWRlZCIsIGZ1bmN0aW9uICgpIHsKICAgIG1hcmtBY3RpdmUoKTsKICAgIHdpcmVTaWduT3V0KCk7CiAgfSk7Cn0pKCk7Cg=="></script>
-    <script>(function(){var KEY='null-itsm-platform-mode';var isPlatform=false;try{isPlatform=sessionStorage.getItem(KEY)==='1';}catch(e){}if(isPlatform){document.querySelectorAll('[data-platform-only]').forEach(function(el){el.removeAttribute('data-platform-only');});document.body.classList.add('platform-mode');}else{document.querySelectorAll('[data-platform-only]').forEach(function(el){el.remove();});}var menu=document.getElementById('userMenu');if(menu){var note=document.createElement('p');note.className='um-note';note.textContent=isPlatform?'Platform demo view — you are viewing as a NULL platform administrator. Organization data is unchanged.':'Organization demo view — Platform Administration is hidden. Switch below to preview the platform-admin view.';menu.appendChild(note);var b=document.createElement('button');b.type='button';b.className='um-switch';b.setAttribute('role','menuitem');b.textContent=isPlatform?'Return to Organization view (demo)':'View as Platform Admin (demo)';b.addEventListener('click',function(){try{if(isPlatform)sessionStorage.removeItem(KEY);else sessionStorage.setItem(KEY,'1');}catch(e){}location.reload();});menu.appendChild(b);var st=document.createElement('style');st.textContent='.um-switch{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid rgba(0,0,0,.08);padding:10px 14px;font:inherit;font-size:13px;font-weight:600;color:inherit;cursor:pointer}.um-switch:hover{background:rgba(0,0,0,.06)}';document.head.appendChild(st);}if(document.body.hasAttribute('data-platform-page')){var main=document.getElementById('pageMain');var denied=document.getElementById('accessDenied');if(isPlatform){if(main)main.style.display='';}else{if(main)main.style.display='none';if(denied)denied.hidden=false;}}})();</script>
+    <script>(function(){var KEY='null-itsm-platform-mode';var isPlatform=false;try{isPlatform=sessionStorage.getItem(KEY)==='1';}catch(e){}if(isPlatform){document.querySelectorAll('[data-platform-only]').forEach(function(el){el.removeAttribute('data-platform-only');});document.body.classList.add('platform-mode');}else{document.querySelectorAll('[data-platform-only]').forEach(function(el){el.remove();});}var menu=document.getElementById('userMenu');if(menu){var note=document.createElement('p');note.className='um-note';note.textContent=isPlatform?'Platform demo view — you are viewing as a NULL platform administrator. Organization data is unchanged.':'Organization demo view — Platform Administration is hidden. Switch below to preview the platform-admin view.';var ex=menu.querySelector('.um-note');if(ex){ex.textContent=note.textContent;}else{menu.appendChild(note);}var b=document.createElement('button');b.type='button';b.className='um-switch';b.setAttribute('role','menuitem');b.textContent=isPlatform?'Return to Organization view (demo)':'View as Platform Admin (demo)';b.addEventListener('click',function(){try{if(isPlatform)sessionStorage.removeItem(KEY);else sessionStorage.setItem(KEY,'1');}catch(e){}location.reload();});menu.appendChild(b);var st=document.createElement('style');st.textContent='.um-switch{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid rgba(0,0,0,.08);padding:10px 14px;font:inherit;font-size:13px;font-weight:600;color:inherit;cursor:pointer}.um-switch:hover{background:rgba(0,0,0,.06)}';document.head.appendChild(st);}if(document.body.hasAttribute('data-platform-page')){var main=document.getElementById('pageMain');var denied=document.getElementById('accessDenied');if(isPlatform){if(main)main.style.display='';}else{if(main)main.style.display='none';if(denied)denied.hidden=false;}}})();</script>
   </body>
 </html>
