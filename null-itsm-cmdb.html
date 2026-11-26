@@ -217,7 +217,7 @@ table.itsm tbody tr.selected{background:var(--accent-soft)}
         </div>
         <button type="button" class="iconbtn" aria-label="Breached tickets" title="Breached tickets" onclick="document.getElementById('ciSearch').focus()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-          <span class="badge-dot">9</span>
+          
         </button>
         <div style="position:relative">
           <button type="button" class="userchip" id="userChip" aria-haspopup="menu" aria-expanded="false">
@@ -252,12 +252,12 @@ table.itsm tbody tr.selected{background:var(--accent-soft)}
         </div>
       </div>
 
-      <!-- ============ STAT STRIP (from the board estate) ============ -->
+      <!-- ============ STAT STRIP ============ -->
       <section class="stats" aria-label="CMDB summary">
-        <div class="stat"><p class="eyebrow" style="margin:0">All CIs</p><p class="v">1,392</p><span class="note" style="color:var(--dim)">configuration items tracked</span></div>
-        <div class="stat"><p class="eyebrow" style="margin:0">Endpoints</p><p class="v">1,272</p><span class="note up">▲ laptops 1,041 · desktops 231</span></div>
-        <div class="stat"><p class="eyebrow" style="margin:0">Applications</p><p class="v">442</p><span class="note" style="color:var(--dim)">software &amp; services</span></div>
-        <div class="stat"><p class="eyebrow" style="margin:0">Relationships</p><p class="v">Mapped</p><span class="note" style="color:var(--dim)">depends-on · connects-to · authenticates</span></div>
+        <div class="stat"><p class="eyebrow" style="margin:0">All CIs</p><p class="v" id="statAll">0</p><span class="note" style="color:var(--dim)">configuration items tracked</span></div>
+        <div class="stat"><p class="eyebrow" style="margin:0">Endpoints</p><p class="v" id="statEndpoints">0</p><span class="note" id="statEndpointsNote" style="color:var(--dim)">laptops 0 · desktops 0</span></div>
+        <div class="stat"><p class="eyebrow" style="margin:0">Applications</p><p class="v" id="statApps">0</p><span class="note" style="color:var(--dim)">software &amp; services</span></div>
+        <div class="stat"><p class="eyebrow" style="margin:0">Relationships</p><p class="v" id="statRels">0</p><span class="note" style="color:var(--dim)">depends-on · connects-to · authenticates</span></div>
       </section>
 
       <!-- ============ TABS ============ -->
@@ -266,7 +266,7 @@ table.itsm tbody tr.selected{background:var(--accent-soft)}
       <!-- ============ TREE + TABLE ============ -->
       <div class="cmdb-grid">
         <aside class="panel tree" aria-label="CI classes">
-          <p class="eyebrow" style="margin:0">All CIs (1,392)</p>
+          <p class="eyebrow" style="margin:0" id="treeAllLabel">All CIs (0)</p>
           <ul id="treeList"></ul>
           <div class="search">
             <input class="field" id="ciSearch" type="search" aria-label="Search configuration items" placeholder="Search configuration items…" autocomplete="off">
@@ -323,7 +323,7 @@ table.itsm tbody tr.selected{background:var(--accent-soft)}
   <div class="modal" role="dialog" aria-modal="true" aria-label="Add Configuration Item">
     <div class="modal-head"><h3>Add Configuration Item</h3><button type="button" id="modalClose" aria-label="Close dialog" style="font-size:20px;line-height:1;padding:4px 8px">×</button></div>
     <form class="modal-body" id="ciForm" novalidate>
-      <label class="flabel"><span class="eyebrow">CI name</span><input class="field" id="fName" placeholder="GC-CLT-0500" autocomplete="off"></label>
+      <label class="flabel"><span class="eyebrow">CI name</span><input class="field" id="fName" placeholder="e.g. Laptop-01" autocomplete="off"></label>
       <p class="err" id="fErr" hidden>Give the configuration item a name first.</p>
       <div class="frow c2">
         <label class="flabel"><span class="eyebrow">CI type</span>
@@ -348,50 +348,44 @@ table.itsm tbody tr.selected{background:var(--accent-soft)}
 
 <script>
 /* ================= data — the CMDB register shown on this screen ================= */
-var CIS = [
-  {name:"GC-CLT-0142", type:"Laptop", tab:"assets", env:"Production", owner:"HR", status:"Active"},
-  {name:"GC-CLT-0178", type:"Laptop", tab:"assets", env:"Production", owner:"Finance", status:"Active"},
-  {name:"GC-CLT-0211", type:"Laptop", tab:"assets", env:"Production", owner:"Courts", status:"Active"},
-  {name:"GC-SRV-0011", type:"Server", tab:"assets", env:"Production", owner:"IT Operations", status:"Active"},
-  {name:"GC-NET-0031", type:"Firewall", tab:"assets", env:"Production", owner:"Security", status:"Active"},
-  {name:"GC-CLT-0234", type:"Laptop", tab:"assets", env:"Production", owner:"Sheriff", status:"Active"},
-  {name:"Microsoft 365", type:"Application", tab:"applications", env:"Production", owner:"IT Operations", status:"Active"},
-  {name:"ManageEngine Endpoint Central", type:"Application", tab:"applications", env:"Production", owner:"IT Operations", status:"Active"},
-  {name:"Okta", type:"Application", tab:"applications", env:"Production", owner:"Security", status:"Active"},
-  {name:"CrowdStrike Falcon", type:"Application", tab:"applications", env:"Production", owner:"Security", status:"Active"},
-  {name:"Barracuda Email Security", type:"Application", tab:"applications", env:"Production", owner:"IT Operations", status:"Active"},
-  {name:"GC-DSK-0107", type:"Desktop", tab:"devices", env:"Production", owner:"Clerk", status:"Active"},
-  {name:"GC-PRN-0044", type:"Printer", tab:"devices", env:"Production", owner:"Courts", status:"Active"},
-  {name:"GC-CLT-0440", type:"Laptop", tab:"devices", env:"Production", owner:"Admin", status:"Active"},
-  {name:"GC-CLT-0142 → Microsoft 365", type:"Depends On", tab:"relationships", env:"Production", owner:"IT Operations", status:"Active"},
-  {name:"GC-SRV-0011 → GC-NET-0031", type:"Connects To", tab:"relationships", env:"Production", owner:"IT Operations", status:"Active"},
-  {name:"Okta → GC-CLT-0440", type:"Authenticates", tab:"relationships", env:"Production", owner:"Security", status:"Active"},
-  {name:"GC-CLT-0098", type:"Laptop", tab:"lifecycle", env:"Production", owner:"IT Operations", status:"Retired"},
-  {name:"GC-CLT-0501", type:"Laptop", tab:"lifecycle", env:"Production", owner:"IT Operations", status:"In Stock"},
-  {name:"GC-DSK-0119", type:"Desktop", tab:"lifecycle", env:"Production", owner:"Clerk", status:"Ordered"}
-];
-var RELS = {
-  "GC-CLT-0142":[["GC-CLT-0142","Depends On","Microsoft 365"],["Okta","Authenticates","GC-CLT-0142"]],
-  "GC-SRV-0011":[["GC-SRV-0011","Connects To","GC-NET-0031"]],
-  "GC-NET-0031":[["GC-SRV-0011","Connects To","GC-NET-0031"]],
-  "GC-CLT-0440":[["Okta","Authenticates","GC-CLT-0440"]],
-  "Microsoft 365":[["GC-CLT-0142","Depends On","Microsoft 365"]],
-  "Okta":[["Okta","Authenticates","GC-CLT-0440"]]
-};
+/* The register starts empty. CIs added with + Add CI are saved in this browser
+   (localStorage) under a versioned key; a stored payload with any other version
+   is ignored, so older demo data can never reappear. */
+var CMDB_STORE_KEY = "null-itsm-cmdb-v2";
+var CMDB_STORE_VERSION = 2;
+function loadCIs(){
+  try{
+    var raw = localStorage.getItem(CMDB_STORE_KEY);
+    if(!raw) return [];
+    var data = JSON.parse(raw);
+    if(!data || data.version !== CMDB_STORE_VERSION || !Array.isArray(data.items)) return [];
+    return data.items.filter(function(c){ return c && typeof c.name === "string" && c.name; });
+  }catch(e){ return []; }
+}
+function saveCIs(){
+  try{ localStorage.setItem(CMDB_STORE_KEY, JSON.stringify({version: CMDB_STORE_VERSION, items: CIS})); }catch(e){}
+}
+var CIS = loadCIs();
+var RELS = {}; /* no mapped relationships yet — added CIs start with none */
 var TABS = [
   {key:"assets", label:"Assets"}, {key:"applications", label:"Applications"},
   {key:"devices", label:"Devices"}, {key:"relationships", label:"Relationships"},
   {key:"lifecycle", label:"Lifecycle"}
 ];
+/* Tree counts are computed from the register in renderTree() — no hardcoded totals. */
 var TREE = [
-  {label:"Endpoints", count:"1,392", depth:1, types:null},
-  {label:"Laptops", count:"1,041", depth:2, types:["Laptop"]},
-  {label:"Desktops", count:"231", depth:2, types:["Desktop"]},
-  {label:"Servers", count:"48", depth:1, types:["Server"]},
-  {label:"Network", count:"87", depth:1, types:["Firewall","Printer"]},
-  {label:"Software", count:"442", depth:1, types:["Application"]},
-  {label:"Facilities", count:"12", depth:1, types:["Facility"]}
+  {label:"Endpoints", depth:1, types:null},
+  {label:"Laptops", depth:2, types:["Laptop"]},
+  {label:"Desktops", depth:2, types:["Desktop"]},
+  {label:"Servers", depth:1, types:["Server"]},
+  {label:"Network", depth:1, types:["Firewall","Printer"]},
+  {label:"Software", depth:1, types:["Application"]},
+  {label:"Facilities", depth:1, types:["Facility"]}
 ];
+function treeCount(n){
+  if(!n.types) return CIS.length;
+  return CIS.filter(function(c){ return n.types.indexOf(c.type)>-1; }).length;
+}
 /* ---- sidebar icons (stroke style, inherit nav text colour) ---- */
 function navSvg(paths, size){
   return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+paths+'</svg>';
@@ -531,7 +525,7 @@ function renderTree(){
   var el = document.getElementById('treeList'); var html='';
   TREE.forEach(function(n){
     var sel = state.treeLabel===n.label;
-    html += '<li><button type="button" class="'+(sel?'sel':'')+'" data-tree="'+n.label+'" style="padding-left:'+(6+(n.depth-1)*16)+'px"><span><span class="dot">'+(n.depth>=2?'○':'▸')+'</span>'+n.label+'</span><span class="cnt">('+n.count+')</span></button></li>';
+    html += '<li><button type="button" class="'+(sel?'sel':'')+'" data-tree="'+n.label+'" style="padding-left:'+(6+(n.depth-1)*16)+'px"><span><span class="dot">'+(n.depth>=2?'○':'▸')+'</span>'+n.label+'</span><span class="cnt">('+treeCount(n)+')</span></button></li>';
   });
   el.innerHTML = html;
   el.querySelectorAll('[data-tree]').forEach(function(b){
@@ -569,7 +563,7 @@ function renderTable(){
   });
   body.innerHTML = html;
   document.getElementById('emptyState').hidden = rows.length>0;
-  document.getElementById('showingLabel').textContent = rows.length===0 ? 'Showing 0 items' : 'Showing '+(start+1)+'–'+(start+pageRows.length)+' of '+rows.length+' in this view · 1,392 CIs in the full register';
+  document.getElementById('showingLabel').textContent = rows.length===0 ? 'Showing 0 items · '+CIS.length+' CIs in the register' : 'Showing '+(start+1)+'–'+(start+pageRows.length)+' of '+rows.length+' in this view · '+CIS.length+' CIs in the register';
   var pg = document.getElementById('pagerPages'); var ph='';
   for(var p=1;p<=pages;p++){ ph += '<button type="button" data-page="'+p+'" class="'+(p===state.page?'cur':'')+'" aria-label="Page '+p+'">'+p+'</button>'; }
   pg.innerHTML = ph;
@@ -597,7 +591,19 @@ function openDrawer(c){
 }
 document.getElementById('drawerClose').addEventListener('click', function(){ document.getElementById('drawer').hidden = true; state.selected=null; renderTable(); });
 
-function render(){ renderTabs(); renderTree(); renderTable(); }
+function renderStats(){
+  var laptops=CIS.filter(function(c){return c.type==="Laptop";}).length;
+  var desktops=CIS.filter(function(c){return c.type==="Desktop";}).length;
+  var apps=CIS.filter(function(c){return c.type==="Application";}).length;
+  var rels=CIS.filter(function(c){return c.tab==="relationships";}).length;
+  document.getElementById("statAll").textContent=CIS.length;
+  document.getElementById("statEndpoints").textContent=laptops+desktops;
+  document.getElementById("statEndpointsNote").textContent="laptops "+laptops+" · desktops "+desktops;
+  document.getElementById("statApps").textContent=apps;
+  document.getElementById("statRels").textContent=rels;
+  var h=document.getElementById("treeAllLabel"); if(h) h.textContent="All CIs ("+CIS.length+")";
+}
+function render(){ renderStats(); renderTabs(); renderTree(); renderTable(); }
 render();
 
 /* search in tree panel */
@@ -657,7 +663,7 @@ document.getElementById('ciForm').addEventListener('submit', function(e){
   if(!name){ document.getElementById('fErr').hidden = false; return; }
   var ci = { name:name, type:document.getElementById('fType').value, tab:document.getElementById('fTab').value,
     env:document.getElementById('fEnv').value, owner:document.getElementById('fOwner').value.trim(), status:document.getElementById('fStatus').value };
-  CIS.push(ci); state.tab = ci.tab; state.page = 1; state.search=''; document.getElementById('ciSearch').value='';
+  CIS.push(ci); saveCIs(); state.tab = ci.tab; state.page = 1; state.search=''; document.getElementById('ciSearch').value='';
   closeModal(); document.getElementById('fName').value=''; document.getElementById('fOwner').value='';
   render(); openDrawer(ci); renderTable();
   flashNote('Added '+ci.name+' to the '+ci.tab+' view for this session.');
